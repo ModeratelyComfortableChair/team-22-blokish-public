@@ -1,0 +1,43 @@
+dist: trusty
+sudo: required
+language: android
+jdk: oraclejdk8
+
+services:
+  - docker
+
+android:
+  components:
+    - tools
+    - tools
+    - platform-tools
+    - android-27
+    - build-tools-27.0.3
+licenses:
+  - 'android-sdk-preview-license-.+'
+  - 'android-sdk-license-.+'
+
+before_install:
+    - yes | sdkmanager "platforms;android-27"
+    #- docker pull ocaml/opam2
+    #- docker run ocaml/opam2:ubuntu opam depext -i cohttp-lwt-unix tls
+
+
+script:
+  - ./gradlew assemble
+  - ./gradlew sonarqube \
+  -Dsonar.projectKey=ecse429-team-22-blokish \
+  -Dsonar.organization=ecse429-fall2018 \
+  -Dsonar.host.url=https://sonarcloud.io \
+  -Dsonar.login=79fb0135e1e5b7726ad0e0e5f342c05823603c1d
+  - ./gradlew clean
+  #- chmod +x config.sh && ./config.sh
+  #- infer run -- ./gradlew assemble
+
+cache:
+  directories:
+    - $HOME/.sonar/cache
+    - $HOME/.gradle
+    - $HOME/.android
+    - ${TRAVIS_BUILD_DIR}/gradle/caches/
+    - ${TRAVIS_BUILD_DIR}/gradle/wrapper/dists/
