@@ -1,4 +1,6 @@
-﻿Blokish
+[**Static Analysis Part-1 Documentation**](https://github.com/McGill-ECSE429-Fall2018/team-22-blokish/wiki/Part-1:-Static-Analysis)
+
+Blokish
 =======
 ![blokish](http://blokish.scoutant.org/blokish_nexus_6)
 
