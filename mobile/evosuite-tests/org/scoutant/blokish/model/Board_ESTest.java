@@ -19,7 +19,7 @@ import org.scoutant.blokish.model.Square;
 public class Board_ESTest extends Board_ESTest_scaffolding {
 
   @Test(timeout = 4000)
-  public void test00()  throws Throwable  {
+  public void test_BoardInit_ColorZero()  throws Throwable  {
       Board board0 = new Board(0);
       List<Square> list0 = board0.seeds();
       assertEquals(20, board0.size);
@@ -27,7 +27,7 @@ public class Board_ESTest extends Board_ESTest_scaffolding {
   }
 
   @Test(timeout = 4000)
-  public void test01()  throws Throwable  {
+  public void test_BoardInit_NegativeColor()  throws Throwable  {
       Board board0 = new Board((-2525));
       List<Square> list0 = board0.seeds();
       assertEquals(0, list0.size());
@@ -36,14 +36,14 @@ public class Board_ESTest extends Board_ESTest_scaffolding {
   }
 
   @Test(timeout = 4000)
-  public void test02()  throws Throwable  {
+  public void test_BoardInit_ValidToString()  throws Throwable  {
       Board board0 = new Board(0);
       String string0 = board0.toString(4);
       assertEquals("1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0\n0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0\n0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0\n0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0\n", string0);
   }
 
   @Test(timeout = 4000)
-  public void test03()  throws Throwable  {
+  public void test_AddValidPieceToBoard()  throws Throwable  {
       Board board0 = new Board(18);
       Piece piece0 = board0.findPieceByType("I4");
       board0.add(piece0, 1, 4);
@@ -53,7 +53,7 @@ public class Board_ESTest extends Board_ESTest_scaffolding {
   }
 
   @Test(timeout = 4000)
-  public void test04()  throws Throwable  {
+  public void test_NonExistingBoardPiece()  throws Throwable  {
       Board board0 = new Board((-291));
       Piece piece0 = board0.findPieceByType("I4");
       boolean boolean0 = board0.onseed(piece0, 0, 4);
@@ -65,7 +65,7 @@ public class Board_ESTest extends Board_ESTest_scaffolding {
   }
 
   @Test(timeout = 4000)
-  public void test05()  throws Throwable  {
+  public void test_BoardPieceColorCheck_FitsLargeNegativeColor()  throws Throwable  {
       Board board0 = new Board((-291));
       Piece piece0 = board0.findPieceByType("I4");
       boolean boolean0 = board0.fits((-1982977861), piece0, 0, 0);
@@ -75,7 +75,7 @@ public class Board_ESTest extends Board_ESTest_scaffolding {
   }
 
   @Test(timeout = 4000)
-  public void test06()  throws Throwable  {
+  public void test_NonFittingPiece()  throws Throwable  {
       Board board0 = new Board((-1375));
       Piece piece0 = new Piece(3, "%Z<j~Pt\"BiF`zA9", 21, 220);
       boolean boolean0 = board0.fits((-1375), piece0, 3, (-218));
@@ -86,7 +86,7 @@ public class Board_ESTest extends Board_ESTest_scaffolding {
   }
 
   @Test(timeout = 4000)
-  public void test07()  throws Throwable  {
+  public void test_Board_NoGameOver()  throws Throwable  {
       Board board0 = new Board(0);
       Piece piece0 = new Piece(521, 20, "sc", 2465, 0);
       board0.fits(20, piece0, 2465, 521);
@@ -96,7 +96,7 @@ public class Board_ESTest extends Board_ESTest_scaffolding {
   }
 
   @Test(timeout = 4000)
-  public void test08()  throws Throwable  {
+  public void test_BoardNonFittingPiece_NoGameOver()  throws Throwable  {
       Board board0 = new Board((-194));
       Piece piece0 = new Piece(21, "sc", 0, 0);
       boolean boolean0 = board0.fits(0, piece0, (-194), 0);
@@ -107,7 +107,7 @@ public class Board_ESTest extends Board_ESTest_scaffolding {
   }
 
   @Test(timeout = 4000)
-  public void test09()  throws Throwable  {
+  public void test_BoardFitNullPiece()  throws Throwable  {
       Board board0 = new Board(0);
       boolean boolean0 = board0.fits(1, (Piece) null, 0, 2461);
       assertEquals(0, board0.color);
@@ -116,7 +116,7 @@ public class Board_ESTest extends Board_ESTest_scaffolding {
   }
 
   @Test(timeout = 4000)
-  public void test10()  throws Throwable  {
+  public void test_BoardFitEmptyTypePiece()  throws Throwable  {
       Board board0 = new Board((-1188));
       Piece piece0 = new Piece(1, "", 2, 1);
       boolean boolean0 = board0.fits((-2739), piece0, 2, 0);
@@ -127,7 +127,7 @@ public class Board_ESTest extends Board_ESTest_scaffolding {
   }
 
   @Test(timeout = 4000)
-  public void test11()  throws Throwable  {
+  public void test_BoardPieceOverlap()  throws Throwable  {
       Board board0 = new Board(18);
       Piece piece0 = board0.findPieceByType("I4");
       board0.add(piece0, 1, 4);
@@ -137,18 +137,13 @@ public class Board_ESTest extends Board_ESTest_scaffolding {
   }
 
   @Test(timeout = 4000)
-  public void test12()  throws Throwable  {
+  public void test_BoardInit_NoGameOver()  throws Throwable  {
       Board board0 = new Board(0);
-      Piece piece0 = new Piece(521, 20, "sc", 2465, 0);
-      Piece piece1 = piece0.add(0, 0);
-      board0.overlaps(0, piece1, 0, (-168356400));
       assertFalse(board0.over);
-      assertEquals(20, board0.size);
-      assertEquals(0, board0.color);
   }
 
   @Test(timeout = 4000)
-  public void test13()  throws Throwable  {
+  public void test_BoardNoOverlap_NoGameOver()  throws Throwable  {
       Board board0 = new Board(0);
       Piece piece0 = new Piece(521, 20, "sc", 2465, 0);
       Piece piece1 = piece0.add(0, 0);
@@ -159,7 +154,7 @@ public class Board_ESTest extends Board_ESTest_scaffolding {
   }
 
   @Test(timeout = 4000)
-  public void test14()  throws Throwable  {
+  public void test_BoardSquare_Outside()  throws Throwable  {
       Board board0 = new Board(5010);
       Square square0 = new Square(20, 5010, 5010);
       boolean boolean0 = board0.outside(square0, (-1), 20);
@@ -169,17 +164,7 @@ public class Board_ESTest extends Board_ESTest_scaffolding {
   }
 
   @Test(timeout = 4000)
-  public void test15()  throws Throwable  {
-      Board board0 = new Board(71);
-      Square square0 = new Square(71, 0, 20);
-      board0.outside(square0, 71, 340);
-      assertEquals(20, board0.size);
-      assertFalse(board0.over);
-      assertEquals(71, board0.color);
-  }
-
-  @Test(timeout = 4000)
-  public void test16()  throws Throwable  {
+  public void test_BoardOutside_NoGameOver()  throws Throwable  {
       Board board0 = new Board((-289));
       Square square0 = new Square(5, 5);
       boolean boolean0 = board0.outside(square0, (-278), 5);
@@ -190,7 +175,7 @@ public class Board_ESTest extends Board_ESTest_scaffolding {
   }
 
   @Test(timeout = 4000)
-  public void test17()  throws Throwable  {
+  public void test_BoardNotOutside_NoGameOver()  throws Throwable  {
       Board board0 = new Board((-291));
       Square square0 = new Square(5, 5);
       boolean boolean0 = board0.outside(square0, 0, 4);
@@ -200,7 +185,7 @@ public class Board_ESTest extends Board_ESTest_scaffolding {
   }
 
   @Test(timeout = 4000)
-  public void test18()  throws Throwable  {
+  public void test_BoardScore_ScoreSeedsIfAddingPiece()  throws Throwable  {
       Board board0 = new Board(1);
       Piece piece0 = board0.findPieceByType("I4");
       board0.add(piece0, 1, 4);
@@ -210,7 +195,7 @@ public class Board_ESTest extends Board_ESTest_scaffolding {
   }
 
   @Test(timeout = 4000)
-  public void test19()  throws Throwable  {
+  public void test_BoardPieceInvalidType_NoGameOver()  throws Throwable  {
       Board board0 = new Board((-289));
       Piece piece0 = new Piece(0, 45, ".*UV=`iV$D.Vy^", 0, 10);
       board0.add(piece0, 0, (-1222));
@@ -220,7 +205,7 @@ public class Board_ESTest extends Board_ESTest_scaffolding {
   }
 
   @Test(timeout = 4000)
-  public void test20()  throws Throwable  {
+  public void test_BoardAddNegativeCoordinatePiece_ScoreCheck()  throws Throwable  {
       Board board0 = new Board(1);
       Piece piece0 = board0.findPieceByType("I4");
       board0.add(piece0, (-1220), (-1220));
@@ -228,7 +213,7 @@ public class Board_ESTest extends Board_ESTest_scaffolding {
   }
 
   @Test(timeout = 4000)
-  public void test21()  throws Throwable  {
+  public void test_BoardScoreCheck()  throws Throwable  {
       Board board0 = new Board(18);
       Piece piece0 = board0.findPieceByType("I4");
       board0.add(piece0, 1, 18);
@@ -236,7 +221,7 @@ public class Board_ESTest extends Board_ESTest_scaffolding {
   }
 
   @Test(timeout = 4000)
-  public void test22()  throws Throwable  {
+  public void test_BoardLargeCoordinate_ScoreCheck()  throws Throwable  {
       Board board0 = new Board(173);
       Piece piece0 = board0.findPieceByType("O4");
       board0.add(piece0, 929, 1);
@@ -244,7 +229,7 @@ public class Board_ESTest extends Board_ESTest_scaffolding {
   }
 
   @Test(timeout = 4000)
-  public void test23()  throws Throwable  {
+  public void test_Board_FindPieceByType_EmptyString()  throws Throwable  {
       Board board0 = new Board((-289));
       Piece piece0 = board0.findPieceByType("");
       assertFalse(board0.over);
@@ -254,7 +239,7 @@ public class Board_ESTest extends Board_ESTest_scaffolding {
   }
 
   @Test(timeout = 4000)
-  public void test24()  throws Throwable  {
+  public void test_BoardOnSeedValidPiece()  throws Throwable  {
       Board board0 = new Board((-289));
       Piece piece0 = board0.findPieceByType("I4");
       assertNotNull(piece0);
@@ -269,14 +254,14 @@ public class Board_ESTest extends Board_ESTest_scaffolding {
   }
 
   @Test(timeout = 4000)
-  public void test25()  throws Throwable  {
+  public void test_BoardInit_ColorThree()  throws Throwable  {
       Board board0 = new Board(3);
       assertEquals(3, board0.color);
       assertEquals(20, board0.size);
   }
 
   @Test(timeout = 4000)
-  public void test26()  throws Throwable  {
+  public void test_BoardInit_ColorTwo()  throws Throwable  {
       Board board0 = new Board(2);
       assertFalse(board0.over);
       assertEquals(20, board0.size);
@@ -284,7 +269,7 @@ public class Board_ESTest extends Board_ESTest_scaffolding {
   }
 
   @Test(timeout = 4000)
-  public void test27()  throws Throwable  {
+  public void test_Board_ScoreCheck()  throws Throwable  {
       Board board0 = new Board(1);
       Piece piece0 = board0.findPieceByType("I4");
       board0.add(piece0, 1, 1);
@@ -293,7 +278,7 @@ public class Board_ESTest extends Board_ESTest_scaffolding {
   }
 
   @Test(timeout = 4000)
-  public void test28()  throws Throwable  {
+  public void test_BoardOutside_NegativeCoordinateSquare()  throws Throwable  {
       Board board0 = new Board(0);
       Square square0 = new Square(0, (-2338), 0);
       boolean boolean0 = board0.outside(square0, 0, 0);
@@ -301,14 +286,5 @@ public class Board_ESTest extends Board_ESTest_scaffolding {
       assertEquals(20, board0.size);
       assertFalse(board0.over);
       assertTrue(boolean0);
-  }
-
-  @Test(timeout = 4000)
-  public void test29()  throws Throwable  {
-      Board board0 = new Board((-1293));
-      board0.toString();
-      assertEquals((-1293), board0.color);
-      assertEquals(20, board0.size);
-      assertFalse(board0.over);
   }
 }
