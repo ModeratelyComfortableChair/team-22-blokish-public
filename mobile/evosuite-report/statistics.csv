@@ -1,0 +1,7 @@
+TARGET_CLASS,criterion,Coverage,Total_Goals,Covered_Goals
+org.scoutant.blokish.model.Square,CBRANCH,1.0,5,5
+org.scoutant.blokish.model.Piece,CBRANCH,0.4444444444444444,126,87
+org.scoutant.blokish.model.Board,CBRANCH,1.0,89,89
+org.scoutant.blokish.model.AI,CBRANCH,0.35294117647058826,119,42
+org.scoutant.blokish.model.Game,CBRANCH,0.49122807017543857,57,28
+org.scoutant.blokish.model.Move,CBRANCH,1.0,5,5
