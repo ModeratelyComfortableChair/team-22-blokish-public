@@ -199,21 +199,4 @@ public class AI_ESTest extends AI_ESTest_scaffolding {
          verifyException("org.scoutant.blokish.model.AI", e);
       }
   }
-
-  @Test(timeout = 4000)
-  public void test_HasMoveException()  throws Throwable  {
-      Game game0 = new Game();
-      AI aI0 = new AI(game0);
-      // Undeclared exception!
-      try { 
-        aI0.hasMove(0);
-        fail("Expecting exception: NoClassDefFoundError");
-      
-      } catch(NoClassDefFoundError e) {
-         //
-         // android/util/Log
-         //
-         verifyException("org.scoutant.blokish.model.AI", e);
-      }
-  }
 }
