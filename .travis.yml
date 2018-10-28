@@ -21,10 +21,10 @@ before_install:
 
 
 script:
-  - ./gradlew assemble
-    #  - ./gradlew sonarqube -Dsonar.projectKey=ecse429-team-22-blokish -Dsonar.organization=ecse429-fall2018 -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=79fb0135e1e5b7726ad0e0e5f342c05823603c1d
   - ./gradlew clean
-  #- chmod +x config.sh && ./config.sh
+  - ./gradlew build
+    #  - ./gradlew sonarqube -Dsonar.projectKey=ecse429-team-22-blokish -Dsonar.organization=ecse429-fall2018 -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=79fb0135e1e5b7726ad0e0e5f342c05823603c1d
+    #- chmod +x config.sh && ./config.sh
   #- infer run -- ./gradlew assemble
 
 cache:
