@@ -5,21 +5,24 @@
 
 package org.scoutant.blokish.model;
 
-import org.junit.Test;
-import static org.junit.Assert.*;
-import static org.evosuite.runtime.EvoAssertions.*;
-import java.util.List;
 import org.evosuite.runtime.EvoRunner;
 import org.evosuite.runtime.EvoRunnerParameters;
+import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.scoutant.blokish.model.Piece;
-import org.scoutant.blokish.model.Square;
+
+import java.util.List;
+
+import static org.evosuite.runtime.EvoAssertions.verifyException;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true, useJEE = true) 
 public class Piece_ESTest extends Piece_ESTest_scaffolding {
 
   @Test(timeout = 4000)
-  public void test00()  throws Throwable  {
+  public void test_PieceColorUndefined_DivisionByZero()  throws Throwable  {
       Piece piece0 = new Piece(0, "", (-1467), 0);
       piece0.squares((-2831));
       piece0.getValue((-1467), 0);
@@ -29,43 +32,49 @@ public class Piece_ESTest extends Piece_ESTest_scaffolding {
         fail("Expecting exception: ArithmeticException");
       
       } catch(ArithmeticException e) {
-         //
-         // / by zero
-         //
+         // division by zero
          verifyException("org.scoutant.blokish.model.Piece", e);
       }
   }
 
-  @Test(timeout = 4000)
-  public void test01()  throws Throwable  {
+  @Test//(timeout = 4000)//to delete
+  public void test_PieceDoesNotEqualString()  throws Throwable  {
       Piece piece0 = new Piece(0, 3, "tDbS5$=U]hZ7S", 0, 0);
       piece0.size = 3;
       piece0.clone();
       piece0.type = "tDbS5$=U]hZ7S";
       piece0.squares((-980));
+
       // Undeclared exception!
-      try { 
+      try {
         piece0.equals("sc");
         fail("Expecting exception: ClassCastException");
-      
+
       } catch(ClassCastException e) {
-         //
          // java.lang.String cannot be cast to org.scoutant.blokish.model.Piece
-         //
          verifyException("org.scoutant.blokish.model.Piece", e);
       }
   }
 
-  @Test(timeout = 4000)
-  public void test02()  throws Throwable  {
+    @Test//(timeout = 4000)//to delete
+    public void test_ClonedPieceEqualsOriginalPiece()  throws Throwable  {
+        Piece piece0 = new Piece(0, 3, "tDbS5$=U]hZ7S", 0, 0);
+        Piece piece1 = piece0.clone();
+        assertTrue(piece0.equals(piece1));
+    }
+
+  @Test//(timeout = 4000)
+  public void test_CorrectRValueAfterRotate()  throws Throwable  {
       int int0 = (-1);
       Piece piece0 = new Piece(4, 2788, ") ", 2788, (-1));
+//      Piece piece0 = new Piece(4, 10, ") ", 2788, (-1));
       // Undeclared exception!
       piece0.rotate((-1));
+      assertEquals(1,piece0.getR());
   }
 
-  @Test(timeout = 4000)
-  public void test03()  throws Throwable  {
+  @Test(timeout = 4000)//old method name: test_InvalidSquareLocation
+  public void test_SquareYCoordinateNegativeRelativeToPiece()  throws Throwable  {
       String string0 = " [exmRD!z";
       Piece piece0 = new Piece(343, 4, " [exmRD!z", 343, 0);
       piece0.seeds();
@@ -83,40 +92,51 @@ public class Piece_ESTest extends Piece_ESTest_scaffolding {
         fail("Expecting exception: IllegalArgumentException");
       
       } catch(IllegalArgumentException e) {
-         //
-         // no message in exception (getMessage() returned null)
-         //
          verifyException("org.scoutant.blokish.model.Piece", e);
       }
   }
 
-  @Test(timeout = 4000)
-  public void test04()  throws Throwable  {
+  @Test//(timeout = 4000)
+  public void test_CorrectFValueAfterFlip()  throws Throwable  {
       Piece piece0 = new Piece(2755, "", 2755, 1740);
+//      Piece piece0 = new Piece(10, "", 2755, 1740);
       Piece piece1 = piece0.add(1, (-1));
-      // Undeclared exception!
+      // Undeclared exception!  //to remove
       piece1.flip();
+      assertEquals(1,piece1.getF());
+
   }
 
-  @Test(timeout = 4000)
-  public void test05()  throws Throwable  {
+  @Test//(timeout = 4000)
+  public void test_PieceToString()  throws Throwable  {
       Piece piece0 = new Piece(10, 10, "", 1, 0);
       List<Square> list0 = piece0.seeds();
       String string0 = piece0.toString();
       assertEquals("\n0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0\n0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0\n0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0\n0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0\n0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0\n0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0\n0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0\n0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0\n0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0\n0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0\n", string0);
       
-      piece0.size = 1;
-      piece0.toLabel();
-      List<Square> list1 = piece0.squares();
-      assertTrue(list1.equals((Object)list0));
+//      piece0.size = 1;
+//      piece0.toLabel();
+//      List<Square> list1 = piece0.squares();
+//      assertTrue(list1.equals((Object)list0));
       
-      Piece piece1 = piece0.rotate(0);
-      assertEquals(1, piece1.rotations);
-      assertEquals(0, piece1.flips);
+//      Piece piece1 = piece0.rotate(0);
+//      assertEquals(1, piece1.rotations);
+//      assertEquals(0, piece1.flips);
   }
 
+    @Test//(timeout = 4000)//I added this method
+    public void test_PieceSeedsAndSquaresListsAreEqual()  throws Throwable  {
+        Piece piece0 = new Piece(10, 10, "", 1, 0);
+        List<Square> list0 = piece0.seeds();
+
+        piece0.size = 1;
+        piece0.toLabel();
+        List<Square> list1 = piece0.squares();
+        assertTrue(list1.equals((Object)list0));
+    }
+
   @Test(timeout = 4000)
-  public void test06()  throws Throwable  {
+  public void test_AddNullSquare()  throws Throwable  {
       int int0 = 0;
       Piece piece0 = new Piece(0, "", 0, 0);
       piece0.squares(0);
@@ -128,15 +148,12 @@ public class Piece_ESTest extends Piece_ESTest_scaffolding {
         fail("Expecting exception: NullPointerException");
       
       } catch(NullPointerException e) {
-         //
-         // no message in exception (getMessage() returned null)
-         //
          verifyException("org.scoutant.blokish.model.Piece", e);
       }
   }
 
-  @Test(timeout = 4000)
-  public void test07()  throws Throwable  {
+  @Test//(timeout = 4000)
+  public void test_SquareXCoordinateDoesNotFitInPiece()  throws Throwable  {
       int int0 = 0;
       Piece piece0 = new Piece(0, 0, ";e559RNc\"dE +", 0, 0);
       // Undeclared exception!
@@ -145,15 +162,12 @@ public class Piece_ESTest extends Piece_ESTest_scaffolding {
         fail("Expecting exception: IllegalArgumentException");
       
       } catch(IllegalArgumentException e) {
-         //
-         // no message in exception (getMessage() returned null)
-         //
          verifyException("org.scoutant.blokish.model.Piece", e);
       }
   }
 
-  @Test(timeout = 4000)
-  public void test08()  throws Throwable  {
+  @Test//(timeout = 4000)
+  public void test_SquareYCoordinateDoesNotFitInPiece()  throws Throwable  {
       Piece piece0 = new Piece(1, 1, "[SySE7f5", 0, 1);
       // Undeclared exception!
       try { 
@@ -161,26 +175,23 @@ public class Piece_ESTest extends Piece_ESTest_scaffolding {
         fail("Expecting exception: IllegalArgumentException");
       
       } catch(IllegalArgumentException e) {
-         //
-         // no message in exception (getMessage() returned null)
-         //
          verifyException("org.scoutant.blokish.model.Piece", e);
       }
   }
 
-  @Test(timeout = 4000)
-  public void test09()  throws Throwable  {
+  @Test(timeout = 4000)//need to add assertion
+  public void test_OverlapingPieces()  throws Throwable  {
       Piece piece0 = new Piece(0, 0, "16*|Dgb?%", 0, 0);
       Piece piece1 = new Piece(0, "16*|Dgb?%", 0, 0);
-      piece0.overlaps(piece1, 0, 0);
+      assertFalse(piece0.overlaps(piece1, 0, 0));
       //  // Unstable assertion: assertEquals(0, piece1.count);
       //  // Unstable assertion: assertEquals(0, piece1.size);
       //  // Unstable assertion: assertEquals(0, piece0.color);
       //  // Unstable assertion: assertFalse(piece1.equals((Object)piece0));
   }
 
-  @Test(timeout = 4000)
-  public void test10()  throws Throwable  {
+  @Test//(timeout = 4000)
+  public void test_FlipPieceHavingZeroFilps_DivisionByZero()  throws Throwable  {
       Piece piece0 = new Piece(2, "", 0, 0);
       Piece piece1 = piece0.clone();
       piece1.toString();
@@ -197,27 +208,29 @@ public class Piece_ESTest extends Piece_ESTest_scaffolding {
         fail("Expecting exception: ArithmeticException");
       
       } catch(ArithmeticException e) {
-         //
-         // / by zero
-         //
+         // division by zero
          verifyException("org.scoutant.blokish.model.Piece", e);
       }
   }
 
   @Test(timeout = 4000)
-  public void test11()  throws Throwable  {
+  public void test_PieceTouchesSpecificCoordinate()  throws Throwable  {
       Piece piece0 = new Piece(0, "ocu}I&^v&", 0, 0);
       piece0.isValue(0, 0);
       boolean boolean0 = piece0.touches(0, 10);
       assertFalse(boolean0);
-      
-      String string0 = Piece.serialize(piece0);
-      assertEquals("0:ocu}I&^v&", string0);
-      assertEquals(0, piece0.flips);
   }
 
+    @Test(timeout = 4000)
+    public void test_PieceSerialize()  throws Throwable  {
+        Piece piece0 = new Piece(0, "ocu}I&^v&", 0, 0);
+        String string0 = Piece.serialize(piece0);
+        assertEquals("0:ocu}I&^v&", string0);
+//        assertEquals(0, piece0.flips);
+    }
+
   @Test(timeout = 4000)
-  public void test12()  throws Throwable  {
+  public void test_PiecePropertiesCorrectUponPieceInstantiation()  throws Throwable  {
       Piece piece0 = new Piece(3, "", 1359, 0);
       assertEquals(1359, piece0.rotations);
       assertEquals(0, piece0.flips);
@@ -228,23 +241,20 @@ public class Piece_ESTest extends Piece_ESTest_scaffolding {
   }
 
   @Test(timeout = 4000)
-  public void test13()  throws Throwable  {
-      int int0 = (-4093);
+  public void test_NegativePieceSize()  throws Throwable  {
+//      int int0 = (-4093);
       Piece piece0 = null;
       try {
         piece0 = new Piece((-4093), "org.scoutant.blokish.model.Piece", 10, 10);
         fail("Expecting exception: NegativeArraySizeException");
       
       } catch(NegativeArraySizeException e) {
-         //
-         // no message in exception (getMessage() returned null)
-         //
          verifyException("org.scoutant.blokish.model.Piece", e);
       }
   }
 
-  @Test(timeout = 4000)
-  public void test14()  throws Throwable  {
+  @Test//(timeout = 4000)
+  public void test_RotatePieceHavingZeroRotationsAndSize_DivisionByZero()  throws Throwable  {
       int int0 = 0;
       Piece piece0 = new Piece(0, 0, ",", 0, 0);
       // Undeclared exception!
@@ -253,15 +263,13 @@ public class Piece_ESTest extends Piece_ESTest_scaffolding {
         fail("Expecting exception: ArithmeticException");
       
       } catch(ArithmeticException e) {
-         //
-         // / by zero
-         //
+         // division by zero
          verifyException("org.scoutant.blokish.model.Piece", e);
       }
   }
 
-  @Test(timeout = 4000)
-  public void test15()  throws Throwable  {
+  @Test//(timeout = 4000)
+  public void test_RotateClonedPieceHavingZeroRotationsAndSize_DivisionByZero()  throws Throwable  {
       Piece piece0 = new Piece(0, 0, "", 0, 0);
       Piece piece1 = piece0.clone();
       // Undeclared exception!
@@ -270,15 +278,13 @@ public class Piece_ESTest extends Piece_ESTest_scaffolding {
         fail("Expecting exception: ArithmeticException");
       
       } catch(ArithmeticException e) {
-         //
-         // / by zero
-         //
+         // division by zero
          verifyException("org.scoutant.blokish.model.Piece", e);
       }
   }
 
-  @Test(timeout = 4000)
-  public void test16()  throws Throwable  {
+  @Test//(timeout = 4000)//check name again
+  public void test_RotateClonedPieceHavingZeroRotations_DivisionByZero()  throws Throwable  {
       Piece piece0 = new Piece(1, 2, "", 0, 1);
       Piece piece1 = piece0.clone();
       piece0.color = (-287);
@@ -288,15 +294,13 @@ public class Piece_ESTest extends Piece_ESTest_scaffolding {
         fail("Expecting exception: ArithmeticException");
       
       } catch(ArithmeticException e) {
-         //
-         // / by zero
-         //
+         // division by zero
          verifyException("org.scoutant.blokish.model.Piece", e);
       }
   }
 
-  @Test(timeout = 4000)
-  public void test17()  throws Throwable  {
+  @Test//(timeout = 4000)
+  public void test_AddSquareAtCoordinateGreaterThanPieceSize()  throws Throwable  {
       Piece piece0 = new Piece(3, 0, "@Z>y`O;8P\")9", 1, 1406);
       Piece.serialize(piece0);
       Square square0 = new Square(1, 0);
@@ -306,15 +310,12 @@ public class Piece_ESTest extends Piece_ESTest_scaffolding {
         fail("Expecting exception: IllegalArgumentException");
       
       } catch(IllegalArgumentException e) {
-         //
-         // no message in exception (getMessage() returned null)
-         //
          verifyException("org.scoutant.blokish.model.Piece", e);
       }
   }
 
-  @Test(timeout = 4000)
-  public void test18()  throws Throwable  {
+  @Test//(timeout = 4000)
+  public void test_SquareXCoordinateNegativeRelativeToPiece()  throws Throwable  {
       Piece piece0 = new Piece(1, 1, "2n", 1, 1);
       piece0.rotations = 1145;
       piece0.flip();
@@ -340,15 +341,12 @@ public class Piece_ESTest extends Piece_ESTest_scaffolding {
         fail("Expecting exception: IllegalArgumentException");
       
       } catch(IllegalArgumentException e) {
-         //
-         // no message in exception (getMessage() returned null)
-         //
          verifyException("org.scoutant.blokish.model.Piece", e);
       }
   }
 
-  @Test(timeout = 4000)
-  public void test19()  throws Throwable  {
+  @Test//(timeout = 4000)
+  public void test_SquareXCoordinateNegativeRelativeToPieceHavingSizeZero()  throws Throwable  {
       int int0 = 0;
       Piece piece0 = new Piece(0, 0, "", (-3518), (-1));
       piece0.type = ") ";
@@ -361,26 +359,23 @@ public class Piece_ESTest extends Piece_ESTest_scaffolding {
         fail("Expecting exception: IllegalArgumentException");
       
       } catch(IllegalArgumentException e) {
-         //
-         // no message in exception (getMessage() returned null)
-         //
          verifyException("org.scoutant.blokish.model.Piece", e);
       }
   }
 
-  @Test(timeout = 4000)
-  public void test20()  throws Throwable  {
-      Piece piece0 = new Piece(0, 0, "Kl", 0, (-269));
-      // Undeclared exception!
-      try { 
-        piece0.rotate((-269));
-        fail("Expecting exception: ArithmeticException");
-      
-      } catch(ArithmeticException e) {
-         //
-         // / by zero
-         //
-         verifyException("org.scoutant.blokish.model.Piece", e);
-      }
-  }
+  /*@Test//(timeout = 4000)
+  public void test_RotatePieceHavingZeroRotationsDivisionByZero2()  throws Throwable  {
+        Piece piece0 = new Piece(0, 0, "Kl", 0, (-269));
+        // Undeclared exception!
+        try {
+            piece0.rotate((-269));
+            fail("Expecting exception: ArithmeticException");
+
+        } catch(ArithmeticException e) {
+            //
+            // / by zero
+            //
+            verifyException("org.scoutant.blokish.model.Piece", e);
+        }
+    }*/
 }
