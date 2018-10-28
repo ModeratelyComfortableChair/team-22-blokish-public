@@ -21,7 +21,7 @@ import org.scoutant.blokish.model.Square;
 public class AI_ESTest extends AI_ESTest_scaffolding {
 
   @Test(timeout = 4000)
-  public void test00()  throws Throwable  {
+  public void test_AiAdaptedLevelSet()  throws Throwable  {
       Game game0 = new Game();
       AI aI0 = new AI(game0);
       Piece piece0 = new Piece(20, "sc", 3, 3);
@@ -33,7 +33,7 @@ public class AI_ESTest extends AI_ESTest_scaffolding {
   }
 
   @Test(timeout = 4000)
-  public void test01()  throws Throwable  {
+  public void test_NoOverlap_LargeCoordinate()  throws Throwable  {
       Game game0 = new Game();
       AI aI0 = new AI(game0);
       Piece piece0 = new Piece(13, "sc", 15, 13);
@@ -45,7 +45,7 @@ public class AI_ESTest extends AI_ESTest_scaffolding {
   }
 
   @Test(timeout = 4000)
-  public void test02()  throws Throwable  {
+  public void test_NoOverlap_NegativeJCoordinate()  throws Throwable  {
       Game game0 = new Game();
       AI aI0 = new AI(game0);
       Piece piece0 = new Piece(20, "sc", 3, 3);
@@ -58,7 +58,7 @@ public class AI_ESTest extends AI_ESTest_scaffolding {
   }
 
   @Test(timeout = 4000)
-  public void test03()  throws Throwable  {
+  public void test_NoOverlap()  throws Throwable  {
       Game game0 = new Game();
       Piece piece0 = new Piece(20, "Q\",B5ed));`P", 20, 5);
       Move move0 = new Move(piece0, 20, 3, 1);
@@ -70,7 +70,7 @@ public class AI_ESTest extends AI_ESTest_scaffolding {
   }
 
   @Test(timeout = 4000)
-  public void test04()  throws Throwable  {
+  public void test_NoOverlap_NegativeICoordinate()  throws Throwable  {
       AI aI0 = new AI((Game) null);
       Piece piece0 = new Piece(4, "Y5", 2131558403, 3);
       Piece piece1 = piece0.flip();
@@ -82,7 +82,7 @@ public class AI_ESTest extends AI_ESTest_scaffolding {
   }
 
   @Test(timeout = 4000)
-  public void test05()  throws Throwable  {
+  public void test_ChainingScoreException_NegativeJMove()  throws Throwable  {
       Game game0 = new Game();
       Piece piece0 = new Piece(20, 20, "sc", 20, 20);
       Move move0 = new Move(piece0, 20, 20);
@@ -103,7 +103,7 @@ public class AI_ESTest extends AI_ESTest_scaffolding {
   }
 
   @Test(timeout = 4000)
-  public void test06()  throws Throwable  {
+  public void test_ChainingScoreException_MoveWithScore()  throws Throwable  {
       Game game0 = new Game();
       Piece piece0 = new Piece(20, 20, "sc", 20, 20);
       Move move0 = new Move(piece0, 20, 20, 20);
@@ -123,7 +123,7 @@ public class AI_ESTest extends AI_ESTest_scaffolding {
   }
 
   @Test(timeout = 4000)
-  public void test07()  throws Throwable  {
+  public void test_ChainingScoreException_ZeroXCoordinate()  throws Throwable  {
       Game game0 = new Game();
       Piece piece0 = new Piece(20, 20, "sc", 20, 20);
       Move move0 = new Move(piece0, 20, 20, 20);
@@ -143,7 +143,7 @@ public class AI_ESTest extends AI_ESTest_scaffolding {
   }
 
   @Test(timeout = 4000)
-  public void test08()  throws Throwable  {
+  public void test_ChainingScoreException_NegativeIMove()  throws Throwable  {
       Game game0 = new Game();
       Piece piece0 = new Piece(20, 20, "sc", 20, 20);
       Move move0 = new Move(piece0, 20, 20, 20);
@@ -164,7 +164,7 @@ public class AI_ESTest extends AI_ESTest_scaffolding {
   }
 
   @Test(timeout = 4000)
-  public void test09()  throws Throwable  {
+  public void test_ChainingScoreException_MoveNoScore()  throws Throwable  {
       Game game0 = new Game();
       Piece piece0 = new Piece(20, 20, "sc", 20, 20);
       Move move0 = new Move(piece0, 20, 0);
@@ -184,7 +184,7 @@ public class AI_ESTest extends AI_ESTest_scaffolding {
   }
 
   @Test(timeout = 4000)
-  public void test10()  throws Throwable  {
+  public void test_ThinkException_NegativeLevel()  throws Throwable  {
       Game game0 = new Game();
       AI aI0 = new AI(game0);
       // Undeclared exception!
@@ -201,7 +201,7 @@ public class AI_ESTest extends AI_ESTest_scaffolding {
   }
 
   @Test(timeout = 4000)
-  public void test11()  throws Throwable  {
+  public void test_HasMoveException()  throws Throwable  {
       Game game0 = new Game();
       AI aI0 = new AI(game0);
       // Undeclared exception!
