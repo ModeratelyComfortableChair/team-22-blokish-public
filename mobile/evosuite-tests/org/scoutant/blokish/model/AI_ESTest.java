@@ -183,20 +183,20 @@ public class AI_ESTest extends AI_ESTest_scaffolding {
       }
   }
 
-//  @Test(timeout = 4000)
-//  public void test_ThinkException_NegativeLevel()  throws Throwable  {
-//      Game game0 = new Game();
-//      AI aI0 = new AI(game0);
-//      // Undeclared exception!
-//      try {
-//        aI0.think(3, (-3046));
-//        fail("Expecting exception: NoClassDefFoundError");
-//
-//      } catch(NoClassDefFoundError e) {
-//         //
-//         // android/util/Log
-//         //
-//         verifyException("org.scoutant.blokish.model.AI", e);
-//      }
-//  }
+  @Test(timeout = 4000)
+  public void test_ThinkException_NegativeLevel()  throws Throwable  {
+      Game game0 = new Game();
+      AI aI0 = new AI(game0);
+      // Undeclared exception!
+      try {
+        aI0.think(3, (-3046));
+        fail("Expecting exception: NoClassDefFoundError");
+
+      } catch(NoClassDefFoundError e) {
+         //
+         // android/util/Log
+         //
+         verifyException("org.scoutant.blokish.model.AI", e);
+      }
+  }
 }
