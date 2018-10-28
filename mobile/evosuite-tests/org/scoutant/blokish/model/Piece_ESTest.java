@@ -63,7 +63,7 @@ public class Piece_ESTest extends Piece_ESTest_scaffolding {
         assertTrue(piece0.equals(piece1));
     }
 
-    @Test(timeout = 10000)
+    @Test(timeout = 100000)
     public void test_CorrectRValueAfterRotate() throws Throwable {
         int int0 = (-1);
         Piece piece0 = new Piece(4, 2788, ") ", 2788, (-1));
@@ -72,7 +72,7 @@ public class Piece_ESTest extends Piece_ESTest_scaffolding {
         assertEquals(1, piece0.getR());
     }
 
-    @Test(timeout = 10000)
+    @Test(timeout = 100000)
     public void test_CorrectFValueAfterFlip() throws Throwable {
         Piece piece0 = new Piece(2755, "", 2755, 1740);
 //      Piece piece0 = new Piece(10, "", 2755, 1740);
