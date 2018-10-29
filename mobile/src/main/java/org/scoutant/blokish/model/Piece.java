@@ -63,6 +63,14 @@ public class Piece {
 		}
 	}
 
+	public int getF(){
+		return f;
+	}
+
+	public int getR(){
+		return r;
+	}
+
 	public Piece clone(){
 		Piece clone = new Piece(size, type, rotations, flips);
 		for (Square s : squares()) clone.add(s);

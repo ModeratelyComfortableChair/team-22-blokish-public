@@ -7,12 +7,11 @@
 package org.scoutant.blokish.model;
 
 import org.evosuite.runtime.annotation.EvoSuiteClassExclude;
-import org.junit.BeforeClass;
-import org.junit.Before;
+import org.evosuite.runtime.sandbox.Sandbox;
 import org.junit.After;
 import org.junit.AfterClass;
-import org.evosuite.runtime.sandbox.Sandbox;
-import org.evosuite.runtime.sandbox.Sandbox.SandboxMode;
+import org.junit.Before;
+import org.junit.BeforeClass;
 
 @EvoSuiteClassExclude
 public class Piece_ESTest_scaffolding {
@@ -30,7 +29,7 @@ public class Piece_ESTest_scaffolding {
     org.evosuite.runtime.RuntimeSettings.className = "org.scoutant.blokish.model.Piece"; 
     org.evosuite.runtime.GuiSupport.initialize(); 
     org.evosuite.runtime.RuntimeSettings.maxNumberOfThreads = 100; 
-    org.evosuite.runtime.RuntimeSettings.maxNumberOfIterationsPerLoop = 10000; 
+    org.evosuite.runtime.RuntimeSettings.maxNumberOfIterationsPerLoop = 100000000;
     org.evosuite.runtime.RuntimeSettings.mockSystemIn = true; 
     org.evosuite.runtime.RuntimeSettings.sandboxMode = org.evosuite.runtime.sandbox.Sandbox.SandboxMode.RECOMMENDED; 
     org.evosuite.runtime.sandbox.Sandbox.initializeSecurityManagerForSUT(); 

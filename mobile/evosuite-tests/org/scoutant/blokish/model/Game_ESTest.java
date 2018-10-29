@@ -9,18 +9,19 @@
 
 package org.scoutant.blokish.model;
 
-import org.junit.Test;
-import static org.junit.Assert.*;
-import static org.evosuite.runtime.EvoAssertions.*;
-import java.util.LinkedList;
-import java.util.List;
 import org.evosuite.runtime.EvoRunner;
 import org.evosuite.runtime.EvoRunnerParameters;
+import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.scoutant.blokish.model.Game;
-import org.scoutant.blokish.model.Move;
-import org.scoutant.blokish.model.Piece;
-import org.scoutant.blokish.model.Square;
+
+import java.util.LinkedList;
+import java.util.List;
+
+import static org.evosuite.runtime.EvoAssertions.verifyException;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true, useJEE = true) 
 public class Game_ESTest extends Game_ESTest_scaffolding {
@@ -43,9 +44,6 @@ public class Game_ESTest extends Game_ESTest_scaffolding {
         fail("Expecting exception: NullPointerException");
       
       } catch(NullPointerException e) {
-         //
-         // no message in exception (getMessage() returned null)
-         //
          verifyException("org.scoutant.blokish.model.Move", e);
       }
   }
@@ -126,9 +124,6 @@ public class Game_ESTest extends Game_ESTest_scaffolding {
         fail("Expecting exception: NullPointerException");
       
       } catch(NullPointerException e) {
-         //
-         // no message in exception (getMessage() returned null)
-         //
          verifyException("org.scoutant.blokish.model.Game", e);
       }
   }
@@ -183,9 +178,6 @@ public class Game_ESTest extends Game_ESTest_scaffolding {
         fail("Expecting exception: NullPointerException");
       
       } catch(NullPointerException e) {
-         //
-         // no message in exception (getMessage() returned null)
-         //
          verifyException("org.scoutant.blokish.model.Game", e);
       }
   }

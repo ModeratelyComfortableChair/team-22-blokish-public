@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-apply plugin: 'jacoco'
+apply plugin: 'jacoco-android'
 
 
 android {
@@ -35,6 +35,8 @@ android {
     buildTypes {
         release {
             minifyEnabled false
+            applicationIdSuffix '.debug'
+            versionNameSuffix '-debug'
             testCoverageEnabled true
         }
     }
@@ -56,3 +58,5 @@ jacoco {
     toolVersion = "0.8.1"
     reportsDir = file("$buildDir/customJacocoReportDir")
 }
+
+

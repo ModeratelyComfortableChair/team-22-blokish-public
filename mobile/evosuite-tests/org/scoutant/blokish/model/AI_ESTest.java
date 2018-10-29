@@ -5,17 +5,15 @@
 
 package org.scoutant.blokish.model;
 
-import org.junit.Test;
-import static org.junit.Assert.*;
-import static org.evosuite.runtime.EvoAssertions.*;
 import org.evosuite.runtime.EvoRunner;
 import org.evosuite.runtime.EvoRunnerParameters;
+import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.scoutant.blokish.model.AI;
-import org.scoutant.blokish.model.Game;
-import org.scoutant.blokish.model.Move;
-import org.scoutant.blokish.model.Piece;
-import org.scoutant.blokish.model.Square;
+
+import static org.evosuite.runtime.EvoAssertions.verifyException;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.fail;
 
 @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true, useJEE = true) 
 public class AI_ESTest extends AI_ESTest_scaffolding {
@@ -95,9 +93,6 @@ public class AI_ESTest extends AI_ESTest_scaffolding {
         fail("Expecting exception: NoClassDefFoundError");
       
       } catch(NoClassDefFoundError e) {
-         //
-         // android/util/Log
-         //
          verifyException("org.scoutant.blokish.model.AI", e);
       }
   }
@@ -115,9 +110,6 @@ public class AI_ESTest extends AI_ESTest_scaffolding {
         fail("Expecting exception: NoClassDefFoundError");
       
       } catch(NoClassDefFoundError e) {
-         //
-         // android/util/Log
-         //
          verifyException("org.scoutant.blokish.model.AI", e);
       }
   }
@@ -135,9 +127,6 @@ public class AI_ESTest extends AI_ESTest_scaffolding {
         fail("Expecting exception: NoClassDefFoundError");
       
       } catch(NoClassDefFoundError e) {
-         //
-         // android/util/Log
-         //
          verifyException("org.scoutant.blokish.model.AI", e);
       }
   }
@@ -156,9 +145,6 @@ public class AI_ESTest extends AI_ESTest_scaffolding {
         fail("Expecting exception: NoClassDefFoundError");
       
       } catch(NoClassDefFoundError e) {
-         //
-         // android/util/Log
-         //
          verifyException("org.scoutant.blokish.model.AI", e);
       }
   }
@@ -176,9 +162,6 @@ public class AI_ESTest extends AI_ESTest_scaffolding {
         fail("Expecting exception: NoClassDefFoundError");
       
       } catch(NoClassDefFoundError e) {
-         //
-         // android/util/Log
-         //
          verifyException("org.scoutant.blokish.model.AI", e);
       }
   }
@@ -188,14 +171,11 @@ public class AI_ESTest extends AI_ESTest_scaffolding {
       Game game0 = new Game();
       AI aI0 = new AI(game0);
       // Undeclared exception!
-      try { 
+      try {
         aI0.think(3, (-3046));
         fail("Expecting exception: NoClassDefFoundError");
-      
+
       } catch(NoClassDefFoundError e) {
-         //
-         // android/util/Log
-         //
          verifyException("org.scoutant.blokish.model.AI", e);
       }
   }
