@@ -11,7 +11,7 @@
 * You should have received a copy of the GNU General Public License along with this program. If not, see <http://www.gnu.org/licenses/>
 */
 
-package org.scoutant.blokish;
+package org.scoutant.blokish.model;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -34,12 +34,11 @@ import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
-import org.scoutant.blokish.model.AI;
-import org.scoutant.blokish.model.Board;
-import org.scoutant.blokish.model.Game;
-import org.scoutant.blokish.model.Move;
-import org.scoutant.blokish.model.Piece;
-import org.scoutant.blokish.model.Square;
+import org.scoutant.blokish.BusyIndicator;
+import org.scoutant.blokish.ButtonsView;
+import org.scoutant.blokish.PieceUI;
+import org.scoutant.blokish.UI;
+import org.scoutant.blokish.R;
 
 import java.util.ArrayList;
 import java.util.Collections;
