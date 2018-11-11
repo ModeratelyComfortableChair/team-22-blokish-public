@@ -6,7 +6,6 @@ import android.support.v4.content.ContextCompat;
 import android.view.Display;
 import android.view.WindowManager;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -26,8 +25,6 @@ import static org.mockito.Mockito.when;
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({ContextCompat.class, GameView.class, UI.class})
 public class PieceUIIntegrationTest {
-
-
 
     @Mock
     private Context context;
@@ -50,30 +47,15 @@ public class PieceUIIntegrationTest {
     @Mock
     private GameView gameView;
 
-    @Before
-    public void setUp(){
-//        context = mock(Context.class);
-//        drawable = mock(Drawable.class);
-//        contextCompat = mock(ContextCompat.class);
-//        mockApplicationContext = mock(Context.class);
-//        display = mock(Display.class);
-//        windowManager = mock(WindowManager.class);
-    }
-
-
-
-
     @Test
     public void pieceUITestToString() throws Exception {
         when(context.getApplicationContext()).thenReturn(mockApplicationContext);
         when(context.getSystemService(Context.WINDOW_SERVICE)).thenReturn(windowManager);
         when(windowManager.getDefaultDisplay()).thenReturn(display);
         PowerMockito.mockStatic(GameView.class);
-//        PowerMockito.when(GameView(any(Context.class))).thenReturn(test);
 
         Piece newPiece = new Piece(1, 4, "square", 4, 2);
         PowerMockito.mockStatic(ContextCompat.class);
-//        BDDMockito.given(ContextCompat.getDrawable(any(Context.class), anyInt())).willReturn(drawable);
         PowerMockito.when(ContextCompat.getDrawable(any(Context.class), anyInt())).thenReturn(drawable);
         PieceUI newPieceUI = new PieceUI(context, newPiece, 1, 1);
 
