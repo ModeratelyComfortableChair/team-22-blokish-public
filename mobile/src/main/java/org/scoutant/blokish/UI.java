@@ -96,7 +96,7 @@ public class UI extends AppCompatActivity implements NavigationView.OnNavigation
 		AppRater.app_launched( this);
 	}
 
-	private void newgame() {
+	public void newgame() {
 		game = new GameView(UI.this);
 //		setContentView(game);
 		setContentView( R.layout.activity_main);
