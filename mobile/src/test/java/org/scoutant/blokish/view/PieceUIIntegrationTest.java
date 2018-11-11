@@ -14,16 +14,17 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.scoutant.blokish.PieceUI;
+import org.scoutant.blokish.UI;
+import org.scoutant.blokish.model.GameView;
 import org.scoutant.blokish.model.Piece;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest(ContextCompat.class)
+@PrepareForTest({ContextCompat.class, GameView.class, UI.class})
 public class PieceUIIntegrationTest {
 
 
@@ -46,24 +47,30 @@ public class PieceUIIntegrationTest {
     @Mock
     private ContextCompat contextCompat;
 
+    @Mock
+    private GameView gameView;
+
     @Before
     public void setUp(){
-        context = mock(Context.class);
-        drawable = mock(Drawable.class);
-        contextCompat = mock(ContextCompat.class);
-        mockApplicationContext = mock(Context.class);
-        display = mock(Display.class);
-        windowManager = mock(WindowManager.class);
+//        context = mock(Context.class);
+//        drawable = mock(Drawable.class);
+//        contextCompat = mock(ContextCompat.class);
+//        mockApplicationContext = mock(Context.class);
+//        display = mock(Display.class);
+//        windowManager = mock(WindowManager.class);
     }
 
 
 
 
     @Test
-    public void pieceUITestToString(){
+    public void pieceUITestToString() throws Exception {
         when(context.getApplicationContext()).thenReturn(mockApplicationContext);
         when(context.getSystemService(Context.WINDOW_SERVICE)).thenReturn(windowManager);
         when(windowManager.getDefaultDisplay()).thenReturn(display);
+        PowerMockito.mockStatic(GameView.class);
+//        PowerMockito.when(GameView(any(Context.class))).thenReturn(test);
+
         Piece newPiece = new Piece(1, 4, "square", 4, 2);
         PowerMockito.mockStatic(ContextCompat.class);
 //        BDDMockito.given(ContextCompat.getDrawable(any(Context.class), anyInt())).willReturn(drawable);
@@ -71,7 +78,7 @@ public class PieceUIIntegrationTest {
         PieceUI newPieceUI = new PieceUI(context, newPiece, 1, 1);
 
         String returnedString = newPieceUI.toString();
-        assertEquals(returnedString, "<PieceUI> : (1,1) ; " + newPiece);
+        assertEquals(returnedString, "<PieceUI> : (1, 1) ; " + newPiece);
 
     }
 
