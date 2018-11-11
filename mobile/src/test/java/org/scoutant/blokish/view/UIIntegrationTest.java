@@ -1,4 +1,4 @@
 package org.scoutant.blokish.view;
 
-public class IntegrationTest {
+public class UIIntegrationTest {
 }

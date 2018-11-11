@@ -39,6 +39,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 
+import org.scoutant.blokish.model.GameView;
 import org.scoutant.blokish.model.Piece;
 import org.scoutant.blokish.model.Square;
 
