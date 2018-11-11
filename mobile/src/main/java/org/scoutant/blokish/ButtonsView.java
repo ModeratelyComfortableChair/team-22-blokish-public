@@ -27,6 +27,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView.ScaleType;
 
+import org.scoutant.blokish.model.GameView;
 import org.scoutant.blokish.model.Move;
 
 public class ButtonsView extends FrameLayout {

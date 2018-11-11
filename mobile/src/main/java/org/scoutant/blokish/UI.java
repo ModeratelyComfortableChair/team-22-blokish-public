@@ -41,6 +41,7 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
+import org.scoutant.blokish.model.GameView;
 import org.scoutant.blokish.model.Move;
 import org.scoutant.blokish.model.Piece;
 import org.scoutant.blokish.model.Square;
