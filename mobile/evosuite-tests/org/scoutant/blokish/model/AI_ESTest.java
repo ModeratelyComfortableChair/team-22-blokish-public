@@ -5,23 +5,21 @@
 
 package org.scoutant.blokish.model;
 
-import org.junit.Test;
-import static org.junit.Assert.*;
-import static org.evosuite.runtime.EvoAssertions.*;
 import org.evosuite.runtime.EvoRunner;
 import org.evosuite.runtime.EvoRunnerParameters;
+import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.scoutant.blokish.model.AI;
-import org.scoutant.blokish.model.Game;
-import org.scoutant.blokish.model.Move;
-import org.scoutant.blokish.model.Piece;
-import org.scoutant.blokish.model.Square;
+
+import static org.evosuite.runtime.EvoAssertions.verifyException;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.fail;
 
 @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true, useJEE = true) 
 public class AI_ESTest extends AI_ESTest_scaffolding {
 
   @Test(timeout = 4000)
-  public void test00()  throws Throwable  {
+  public void test_AiAdaptedLevelSet()  throws Throwable  {
       Game game0 = new Game();
       AI aI0 = new AI(game0);
       Piece piece0 = new Piece(20, "sc", 3, 3);
@@ -33,7 +31,7 @@ public class AI_ESTest extends AI_ESTest_scaffolding {
   }
 
   @Test(timeout = 4000)
-  public void test01()  throws Throwable  {
+  public void test_NoOverlap_LargeCoordinate()  throws Throwable  {
       Game game0 = new Game();
       AI aI0 = new AI(game0);
       Piece piece0 = new Piece(13, "sc", 15, 13);
@@ -45,7 +43,7 @@ public class AI_ESTest extends AI_ESTest_scaffolding {
   }
 
   @Test(timeout = 4000)
-  public void test02()  throws Throwable  {
+  public void test_NoOverlap_NegativeJCoordinate()  throws Throwable  {
       Game game0 = new Game();
       AI aI0 = new AI(game0);
       Piece piece0 = new Piece(20, "sc", 3, 3);
@@ -58,7 +56,7 @@ public class AI_ESTest extends AI_ESTest_scaffolding {
   }
 
   @Test(timeout = 4000)
-  public void test03()  throws Throwable  {
+  public void test_NoOverlap()  throws Throwable  {
       Game game0 = new Game();
       Piece piece0 = new Piece(20, "Q\",B5ed));`P", 20, 5);
       Move move0 = new Move(piece0, 20, 3, 1);
@@ -70,7 +68,7 @@ public class AI_ESTest extends AI_ESTest_scaffolding {
   }
 
   @Test(timeout = 4000)
-  public void test04()  throws Throwable  {
+  public void test_NoOverlap_NegativeICoordinate()  throws Throwable  {
       AI aI0 = new AI((Game) null);
       Piece piece0 = new Piece(4, "Y5", 2131558403, 3);
       Piece piece1 = piece0.flip();
@@ -82,7 +80,7 @@ public class AI_ESTest extends AI_ESTest_scaffolding {
   }
 
   @Test(timeout = 4000)
-  public void test05()  throws Throwable  {
+  public void test_ChainingScoreException_NegativeJMove()  throws Throwable  {
       Game game0 = new Game();
       Piece piece0 = new Piece(20, 20, "sc", 20, 20);
       Move move0 = new Move(piece0, 20, 20);
@@ -95,15 +93,12 @@ public class AI_ESTest extends AI_ESTest_scaffolding {
         fail("Expecting exception: NoClassDefFoundError");
       
       } catch(NoClassDefFoundError e) {
-         //
-         // android/util/Log
-         //
          verifyException("org.scoutant.blokish.model.AI", e);
       }
   }
 
   @Test(timeout = 4000)
-  public void test06()  throws Throwable  {
+  public void test_ChainingScoreException_MoveWithScore()  throws Throwable  {
       Game game0 = new Game();
       Piece piece0 = new Piece(20, 20, "sc", 20, 20);
       Move move0 = new Move(piece0, 20, 20, 20);
@@ -115,15 +110,12 @@ public class AI_ESTest extends AI_ESTest_scaffolding {
         fail("Expecting exception: NoClassDefFoundError");
       
       } catch(NoClassDefFoundError e) {
-         //
-         // android/util/Log
-         //
          verifyException("org.scoutant.blokish.model.AI", e);
       }
   }
 
   @Test(timeout = 4000)
-  public void test07()  throws Throwable  {
+  public void test_ChainingScoreException_ZeroXCoordinate()  throws Throwable  {
       Game game0 = new Game();
       Piece piece0 = new Piece(20, 20, "sc", 20, 20);
       Move move0 = new Move(piece0, 20, 20, 20);
@@ -135,15 +127,12 @@ public class AI_ESTest extends AI_ESTest_scaffolding {
         fail("Expecting exception: NoClassDefFoundError");
       
       } catch(NoClassDefFoundError e) {
-         //
-         // android/util/Log
-         //
          verifyException("org.scoutant.blokish.model.AI", e);
       }
   }
 
   @Test(timeout = 4000)
-  public void test08()  throws Throwable  {
+  public void test_ChainingScoreException_NegativeIMove()  throws Throwable  {
       Game game0 = new Game();
       Piece piece0 = new Piece(20, 20, "sc", 20, 20);
       Move move0 = new Move(piece0, 20, 20, 20);
@@ -156,15 +145,12 @@ public class AI_ESTest extends AI_ESTest_scaffolding {
         fail("Expecting exception: NoClassDefFoundError");
       
       } catch(NoClassDefFoundError e) {
-         //
-         // android/util/Log
-         //
          verifyException("org.scoutant.blokish.model.AI", e);
       }
   }
 
   @Test(timeout = 4000)
-  public void test09()  throws Throwable  {
+  public void test_ChainingScoreException_MoveNoScore()  throws Throwable  {
       Game game0 = new Game();
       Piece piece0 = new Piece(20, 20, "sc", 20, 20);
       Move move0 = new Move(piece0, 20, 0);
@@ -176,43 +162,20 @@ public class AI_ESTest extends AI_ESTest_scaffolding {
         fail("Expecting exception: NoClassDefFoundError");
       
       } catch(NoClassDefFoundError e) {
-         //
-         // android/util/Log
-         //
          verifyException("org.scoutant.blokish.model.AI", e);
       }
   }
 
   @Test(timeout = 4000)
-  public void test10()  throws Throwable  {
+  public void test_ThinkException_NegativeLevel()  throws Throwable  {
       Game game0 = new Game();
       AI aI0 = new AI(game0);
       // Undeclared exception!
-      try { 
+      try {
         aI0.think(3, (-3046));
         fail("Expecting exception: NoClassDefFoundError");
-      
-      } catch(NoClassDefFoundError e) {
-         //
-         // android/util/Log
-         //
-         verifyException("org.scoutant.blokish.model.AI", e);
-      }
-  }
 
-  @Test(timeout = 4000)
-  public void test11()  throws Throwable  {
-      Game game0 = new Game();
-      AI aI0 = new AI(game0);
-      // Undeclared exception!
-      try { 
-        aI0.hasMove(0);
-        fail("Expecting exception: NoClassDefFoundError");
-      
       } catch(NoClassDefFoundError e) {
-         //
-         // android/util/Log
-         //
          verifyException("org.scoutant.blokish.model.AI", e);
       }
   }

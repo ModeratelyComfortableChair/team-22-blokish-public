@@ -44,9 +44,8 @@ android {
     buildTypes {
         release {
             minifyEnabled false
-            testCoverageEnabled true
-        }
-        debug {
+            applicationIdSuffix '.debug'
+            versionNameSuffix '-debug'
             testCoverageEnabled true
         }
     }
@@ -71,7 +70,9 @@ android {
 
 }
 
-
-
+jacoco {
+    toolVersion = "0.8.1"
+    reportsDir = file("$buildDir/customJacocoReportDir")
+}
 
 
