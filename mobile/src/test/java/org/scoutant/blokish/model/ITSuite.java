@@ -1,6 +1,8 @@
 package org.scoutant.blokish.model;
+
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
+import org.scoutant.blokish.view.PieceUIIntegrationTest;
 import org.scoutant.blokish.view.UIIntegrationTest;
 
 @RunWith(Suite.class)
@@ -16,9 +18,9 @@ import org.scoutant.blokish.view.UIIntegrationTest;
         //Level 4
         GameIntegrationTest.class,
         //Level 5
-        AIIntegration.class,
+        AIIntegrationTest.class,
         //Level 6
-        GameViewIntegration.class,
+        //GameViewIntegrationTest.class,
         //Level 7
         UIIntegrationTest.class
 })

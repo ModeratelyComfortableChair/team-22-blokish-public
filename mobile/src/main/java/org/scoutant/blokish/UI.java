@@ -59,7 +59,7 @@ import java.util.List;
 
 public class UI extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, SwipeRefreshLayout.OnRefreshListener {
 	private static final int MENU_ITEM_HISTORY = 99;
-	private static final int MENU_ITEM_REPLAY = 101;
+    private static final int MENU_ITEM_REPLAY = 101;
 	private static final int MENU_ITEM_BACK = 102;
 	private static final int MENU_ITEM_NEW = 5;
 	private static final int MENU_ITEM_THINK=10;
@@ -77,6 +77,10 @@ public class UI extends AppCompatActivity implements NavigationView.OnNavigation
 	private boolean back_pressed;
 	private DrawerLayout drawer;
 
+    public static int getMenuItemReplay() {
+        return MENU_ITEM_REPLAY;
+    }
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -92,7 +96,7 @@ public class UI extends AppCompatActivity implements NavigationView.OnNavigation
 		AppRater.app_launched( this);
 	}
 
-	private void newgame() {
+	public void newgame() {
 		game = new GameView(UI.this);
 //		setContentView(game);
 		setContentView( R.layout.activity_main);
