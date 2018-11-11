@@ -62,7 +62,7 @@ android {
 	sourceSets{
 		test {
 			java{
-				srcDirs = ['./src/test/java' , './evosuite-tests'] 
+				srcDirs = ['./src/test/java'] //'./evosuite-tests']
 			}
 		}
 	}
