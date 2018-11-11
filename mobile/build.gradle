@@ -1,4 +1,14 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.dicedmelon.gradle:jacoco-android:0.1.2'
+    }
+}
+
 apply plugin: 'com.android.application'
+apply plugin: 'jacoco-android'
 
 android {
     compileSdkVersion 27 // Api 8.1
@@ -17,6 +27,7 @@ android {
     }
     dependencies {
         testImplementation 'junit:junit:4.12'
+        testImplementation 'org.mockito:mockito-core:2.23.0'
 
 	    testCompile 'org.evosuite:evosuite-standalone-runtime:1.0.6'
         implementation 'com.android.support:appcompat-v7:27.1.1'
@@ -33,6 +44,10 @@ android {
     buildTypes {
         release {
             minifyEnabled false
+            testCoverageEnabled true
+        }
+        debug {
+            testCoverageEnabled true
         }
     }
 
@@ -48,4 +63,15 @@ android {
 		}
 	}
 
+    jacocoAndroidUnitTestReport {
+        csv.enabled false
+        html.enabled true
+        xml.enabled false
+    }
+
 }
+
+
+
+
+
