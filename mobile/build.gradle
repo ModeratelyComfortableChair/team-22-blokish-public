@@ -1,6 +1,14 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.dicedmelon.gradle:jacoco-android:0.1.2'
+    }
+}
+
 apply plugin: 'com.android.application'
 apply plugin: 'jacoco-android'
-
 
 android {
     compileSdkVersion 27 // Api 8.1
@@ -19,6 +27,11 @@ android {
     }
     dependencies {
         testImplementation 'junit:junit:4.12'
+        testCompile 'org.mockito:mockito-core:2.8.0'
+        testCompile 'org.powermock:powermock-api-mockito2:1.7.0RC2'
+        testCompile 'org.powermock:powermock-module-junit4:1.7.0'
+        testCompile 'org.powermock:powermock-core:1.7.0'
+        testCompile 'org.powermock:powermock-module-junit4-rule:1.7.0
         testImplementation 'org.mockito:mockito-core:2.23.0'
 
 	    testCompile 'org.evosuite:evosuite-standalone-runtime:1.0.6'
@@ -54,7 +67,14 @@ android {
 		}
 	}
 
+    jacocoAndroidUnitTestReport {
+        csv.enabled false
+        html.enabled true
+        xml.enabled false
+    }
+
 }
+
 jacoco {
     toolVersion = "0.8.1"
     reportsDir = file("$buildDir/customJacocoReportDir")
