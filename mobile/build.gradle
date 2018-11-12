@@ -58,14 +58,14 @@ android {
         unitTests.returnDefaultValues = true
         unitTests.includeAndroidResources = true
     }
-
-    sourceSets {
-        test {
-            java {
-                srcDirs = ['./src/test/java', './evosuite-tests']
-            }
-        }
-    }
+    
+	sourceSets{
+		test {
+			java{
+				srcDirs = ['./src/test/java'] //'./evosuite-tests']
+			}
+		}
+	}
 
     jacocoAndroidUnitTestReport {
         csv.enabled false
