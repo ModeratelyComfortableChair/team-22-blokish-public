@@ -1,5 +1,9 @@
 [**Static Analysis Part-1 Documentation**](https://github.com/McGill-ECSE429-Fall2018/team-22-blokish/wiki/Part-1:-Static-Analysis)
 
+[**Unit Testing Part-2 Documentation**](https://github.com/McGill-ECSE429-Fall2018/team-22-blokish/wiki/Part-2:-Unit-Testing)
+
+[**Integration Testing Part-3 Documentation**](https://github.com/McGill-ECSE429-Fall2018/team-22-blokish/wiki/Part-3:-Integration-Testing)
+
 Blokish
 =======
 ![blokish](http://blokish.scoutant.org/blokish_nexus_6)
