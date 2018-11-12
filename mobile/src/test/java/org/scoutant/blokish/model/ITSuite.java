@@ -20,7 +20,7 @@ import org.scoutant.blokish.view.UIIntegrationTest;
         //Level 5
         AIIntegrationTest.class,
         //Level 6
-        //GameViewIntegrationTest.class,
+        GameViewIntegrationTest.class,
         //Level 7
         UIIntegrationTest.class
 })
