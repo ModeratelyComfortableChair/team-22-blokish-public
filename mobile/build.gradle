@@ -6,10 +6,8 @@ buildscript {
         classpath 'com.dicedmelon.gradle:jacoco-android:0.1.2'
     }
 }
-
 apply plugin: 'com.android.application'
 apply plugin: 'jacoco-android'
-
 android {
     compileSdkVersion 27 // Api 8.1
     buildToolsVersion "27.0.3"
@@ -34,11 +32,11 @@ android {
         testCompile 'org.powermock:powermock-module-junit4-rule:1.7.0'
 //        testImplementation 'org.mockito:mockito-core:2.23.0'
 
-	    testCompile 'org.evosuite:evosuite-standalone-runtime:1.0.6'
+        testCompile 'org.evosuite:evosuite-standalone-runtime:1.0.6'
         implementation 'com.android.support:appcompat-v7:27.1.1'
         implementation 'com.android.support:support-v4:27.1.1'
         implementation 'com.android.support:design:27.1.1'
-	
+
     }
 
     lintOptions {
@@ -59,13 +57,13 @@ android {
         unitTests.returnDefaultValues = true
     }
 
-	sourceSets{
-		test {
-			java{
-				srcDirs = ['./src/test/java' , './evosuite-tests'] 
-			}
-		}
-	}
+    sourceSets {
+        test {
+            java {
+                srcDirs = ['./src/test/java', './evosuite-tests']
+            }
+        }
+    }
 
     jacocoAndroidUnitTestReport {
         csv.enabled false
@@ -74,10 +72,10 @@ android {
     }
 
 }
-
 jacoco {
     toolVersion = "0.8.1"
     reportsDir = file("$buildDir/customJacocoReportDir")
 }
 
-
+dependencies {
+}
