@@ -137,9 +137,5 @@ public class ButtonsView extends FrameLayout {
 			ButtonsView.this.setVisibility(INVISIBLE);
 		}
 	};
-
-	public ImageButton getOk(){
-		return ok;
-	}
 	
 }
