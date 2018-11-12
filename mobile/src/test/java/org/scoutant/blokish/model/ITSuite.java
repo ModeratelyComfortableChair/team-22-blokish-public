@@ -7,7 +7,7 @@ import org.scoutant.blokish.view.UIIntegrationTest;
 
 @RunWith(Suite.class)
 
-//Unit Test Classes Organized by Dependency Level
+//Integration Test Classes Organized by Dependency Level
 @Suite.SuiteClasses({
         //Level 2
         PieceIntegrationTest.class,
@@ -19,9 +19,8 @@ import org.scoutant.blokish.view.UIIntegrationTest;
         GameIntegrationTest.class,
         //Level 5
         AIIntegrationTest.class,
-        //Level 6
         GameViewIntegrationTest.class,
-        //Level 7
+        //Level 6
         UIIntegrationTest.class
 })
 
