@@ -7,7 +7,7 @@ Feature: Approve Block Placement
 
   Scenario Outline: I try to press approve button
     When I select an available piece <piece>
-    And drag it to an invalid position <position>
+    And drag it to a position <position>
     And I release it
     Then I should see the button to confirm
     And I result <result> click the button
