@@ -7,6 +7,8 @@ import com.robotium.solo.Solo;
 import org.scoutant.blokish.*;
 import org.scoutant.blokish.model.Square;
 
+import cucumber.api.java.en.Given;
+
 
 public class RobotiumTests extends
         ActivityInstrumentationTestCase2<UI> {
@@ -21,6 +23,8 @@ public class RobotiumTests extends
 
     public void setUp() throws Exception {
         super.setUp();
+        solo = new Solo(getInstrumentation(), getActivity());
+
 
     }
 
@@ -30,13 +34,14 @@ public class RobotiumTests extends
         solo.finishOpenedActivities();
     }
 
-    public void testDragFeature() throws Exception{
-        solo = new Solo(getInstrumentation(), getActivity());
+    private int[][] dragFirstPieceToCorner(){
 
         solo.waitForActivity("UI", 2000);
         ui = (UI) getActivity();
 
         PieceUI piece = ui.game.findPiece(0, "I5");
+
+        int[][] result = new int[2][2];
 
         int[] start=new int[2];
         int[] end=new int[2];
@@ -52,7 +57,7 @@ public class RobotiumTests extends
 
         for(Square s: ui.game.game.boards.get(0).seeds()){
             endX = s.i*ui.game.size + ui.game.size/4;
-            endY = s.j*ui.game.size + ui.game.size/4;
+            endY = s.j*ui.game.size + 6*ui.game.size;
 
             break;
         }
@@ -62,9 +67,20 @@ public class RobotiumTests extends
         solo.assertCurrentActivity("UI Supposed to Launch", UI.class);
 
         piece.getLocationOnScreen(end);
+        result[0] = start;
+        result[1] = end;
+        return result;
+    }
 
-        assertNotSame("X Position of piece must be different", start[0], end[0]);
-        assertNotSame("X Position of piece must be different", start[1], end[1]);
+    private void confirmFirstPiece(){
+
+    }
+
+    public void testDragFeature(){
+
+        int result[][] = dragFirstPieceToCorner();
+        assertNotSame("X Position of piece must be different", result[0][0], result[1][0]);
+        assertNotSame("X Position of piece must be different", result[0][1], result[1][1]);
 
     }
 }
