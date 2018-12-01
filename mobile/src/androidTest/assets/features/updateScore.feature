@@ -1,3 +1,4 @@
+#Feature 4
 Feature: Update Game Score
 #Note: piece and block refer to the same thing
   Background:

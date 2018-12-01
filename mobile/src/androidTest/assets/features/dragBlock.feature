@@ -1,3 +1,4 @@
+#Feature 1
 Feature: Drag Block Placement
 #Note: piece and block refer to the same thing
   Background:
@@ -5,6 +6,7 @@ Feature: Drag Block Placement
     And it is my turn to move
     And I have pieces available
 
+#Scenario 1
   Scenario:
     When I select an available piece
     And drag it to a position on the board

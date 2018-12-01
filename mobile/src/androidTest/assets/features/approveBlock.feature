@@ -1,3 +1,4 @@
+#Feature 2
 Feature: Approve Block Placement
 #Note: piece and block refer to the same thing
   Background:
