@@ -25,8 +25,8 @@ public class RobotiumTests extends
     //Piece string tags found in Board.java
     private static final String FIRST_PIECE_TYPE = "I5"; //Vertical Line (Top Left 1st piece available)
     //TODO: decide piece type
-    private static final String SECOND_PIECE_TYPE = "I5"; //Vertical Line (Top Left 1st piece available)
-    private static final String THIRD_PIECE_TYPE = "I5"; //Vertical Line (Top Left 1st piece available)
+    private static final String SECOND_PIECE_TYPE = "N5"; //Vertical Line (Top Left 1st piece available)
+    private static final String THIRD_PIECE_TYPE = "L5"; // Backwards L (Bottom Left 1st piece available)
     private static final int COLOR = 0; //Red
 
     public RobotiumTests(){
@@ -52,7 +52,7 @@ public class RobotiumTests extends
      */
     public void testDragFeature(){
 
-        int result[][] = dragFirstPieceToCorner();
+        int result[][] = dragPieceToCorner(FIRST_PIECE_TYPE, COLOR);
         try {
             Thread.sleep(2000);
         } catch (Exception e){
@@ -69,7 +69,7 @@ public class RobotiumTests extends
 
     }
 
-    /** TEST
+    /** TEST --DONE
      *  Tests Scenario #12, Feature:  Update Game Score
      *  "Successfully add block to the board and update my score"
      */
@@ -81,7 +81,7 @@ public class RobotiumTests extends
             preUpdateScore = Integer.parseInt(redTab.getText().toString());
         }
 
-        int[][] moveResult = dragFirstPieceToCorner();
+        int[][] moveResult = dragPieceToCorner(FIRST_PIECE_TYPE, COLOR);
         System.out.println("Move locations: \t"+Arrays.deepToString(moveResult)); //ToDO validate result of moving inital piece
         confirmPiece();
         solo.sleep(2000); // 2 seconds to ensure ui updated
@@ -94,16 +94,17 @@ public class RobotiumTests extends
         assertEquals(5, postUpdateScore - preUpdateScore); //I.e. score increased by 5
     }
 
-    /* TODO: Implement
+
+     /*TODO: Implement assertion
     //Check to see if player can still play the piece. If not, then the test is successful.
     public void testConfirmFirstPiece(){
-        dragFirstPieceToCorner();
+        dragPieceToCorner(FIRST_PIECE_TYPE, COLOR);
         confirmPiece();
 
     }
     //Check to see if player can still play the piece. If not, then the test is successful.
     public void testCancelFirstPiece(){
-        dragFirstPieceToCorner();
+        dragPieceToCorner(FIRST_PIECE_TYPE, COLOR);
         cancelPiece();
 
     }*/
@@ -111,16 +112,20 @@ public class RobotiumTests extends
     //HELPERS: -----------------------------------------------------------------------------------------
 
     /** Helper
-     *  Drags the first piece in a new game to the upper left seed
-     *  Assumes Red Player, Assumes new game, Assumes screen hasn't been altered beforehand
+     *  Drags the specified piece upper left seed
+     *  Assumes either new game or only first move (First piece to upperLeft)
+     *  Assumes screen hasn't been altered beforehand
+     *  Assumes Red player
+     * @param type string representing code for the piece to be moved
+     * @param colour int representing colour of board to operate on.
      * @return  int[0] before = array of pixel locations before piece was moved, I.e. before[0] = old X, before[1] = old Y
      *          int[1] after = array of pixel locations after piece was moved, I.e. after[1] = new X, after[1] = new Y
      */
-    private int[][] dragFirstPieceToCorner(){
+    private int[][] dragPieceToCorner(String type, int colour){
 
         solo.waitForActivity("UI", 2000);
 
-        PieceUI piece = ui.game.findPiece(COLOR, FIRST_PIECE_TYPE);
+        PieceUI piece = ui.game.findPiece(COLOR, type);
 
         int[][] result = new int[2][2];
 
@@ -141,15 +146,19 @@ public class RobotiumTests extends
         float endY = 0;
 
         //Note: in a new game the seeds() will return 1 Seed, the initial move
-        for(Square s: ui.game.game.boards.get(0).seeds()){
+        for(Square s: ui.game.game.boards.get(colour).seeds()){
             endX = s.i*ui.game.size + ui.game.size/4;
             endY = s.j*ui.game.size + 6*ui.game.size;
 
             break;
         }
+        if(type.equals(SECOND_PIECE_TYPE)){
+            endX += 2*ui.game.size;
+            endY -= ui.game.size;
+        }
 
         //System.out.println("Starting Location: "+startX +" " + startY);
-        solo.drag(startX, endX, startY, endY, 20);
+        solo.drag(startX, endX, startY, endY, 100);
         //solo.assertCurrentActivity("UI Supposed to Launch", UI.class);
 
         piece.getLocationOnScreen(end);
@@ -159,8 +168,12 @@ public class RobotiumTests extends
     }
 
     private void setupGame(){
-        dragFirstPieceToCorner();
-
+        dragPieceToCorner(FIRST_PIECE_TYPE, COLOR);
+        solo.sleep(100);
+        confirmPiece();
+        solo.sleep(100);
+        dragPieceToCorner(SECOND_PIECE_TYPE, COLOR);
+        confirmPiece();
     }
 
     /** Helper
