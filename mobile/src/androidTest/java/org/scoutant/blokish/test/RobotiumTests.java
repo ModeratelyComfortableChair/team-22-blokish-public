@@ -22,7 +22,11 @@ public class RobotiumTests extends
 
     private Solo solo;
     private UI ui;
+    //Piece string tags found in Board.java
     private static final String FIRST_PIECE_TYPE = "I5"; //Vertical Line (Top Left 1st piece available)
+    //TODO: decide piece type
+    private static final String SECOND_PIECE_TYPE = "I5"; //Vertical Line (Top Left 1st piece available)
+    private static final String THIRD_PIECE_TYPE = "I5"; //Vertical Line (Top Left 1st piece available)
     private static final int COLOR = 0; //Red
 
     public RobotiumTests(){
@@ -154,26 +158,43 @@ public class RobotiumTests extends
         return result;
     }
 
+    private void setupGame(){
+        dragFirstPieceToCorner();
+
+    }
+
     /** Helper
      *  Will attempt to click the location where the confirm placement button is
      */
     private void confirmPiece(){
         int[] position = {10, 10};
         int width = 0;
+
+        ButtonsView myButtonView = findButtonView();
+        if(myButtonView == null){
+            assertNotNull(myButtonView);
+        }
+
+        myButtonView.ok.getLocationOnScreen(position);
+        width = myButtonView.ok.getWidth();
+        System.out.println("Found Button= "+(position[0] + width/2) +" " + (position[1] + width/2));
+        solo.clickOnScreen(position[0] + width/2, position[1] + width/2);
+    }
+    /** Helper
+     *  Find the Approve&Cancel ButtonView
+     * @return ButtonView containing the Approve and Cancel buttons
+     * Note, might return null!
+     */
+    private ButtonsView findButtonView() {
+        ButtonsView myButtonView = null;
         for (int i=0; i<ui.game.getChildCount(); i++) {
             View v = ui.game.getChildAt(i);
             if (v instanceof ButtonsView) {
-
-                ButtonsView myButtonView = (ButtonsView) v;
-                myButtonView.ok.getLocationOnScreen(position);
-                width = myButtonView.ok.getWidth();
-                System.out.println("Found Button= "+(position[0] + width/2) +" " + (position[1] + width/2));
-                solo.clickOnScreen(position[0] + width/2, position[1] + width/2);
+                myButtonView = (ButtonsView) v;
                 break;
             }
-
-
         }
+        return myButtonView;
     }
 
     /** Helper
@@ -182,20 +203,16 @@ public class RobotiumTests extends
     private void cancelPiece(){
         int[] position = {10, 10};
         int width = 0;
-        for (int i=0; i<ui.game.getChildCount(); i++) {
-            View v = ui.game.getChildAt(i);
-            if (v instanceof ButtonsView) {
 
-                ButtonsView myButtonView = (ButtonsView) v;
-                myButtonView.ok.getLocationOnScreen(position);
-                width = myButtonView.ok.getWidth();
-                position[0] =  ui.game.size*20 - (position[0] + width/2);
-                System.out.println("Found Button= "+(position[0] + width/2) +" " + (position[1] + width/2));
-                solo.clickOnScreen(position[0], position[1] + width/2);
-                break;
-            }
-
-
+        ButtonsView myButtonView = findButtonView();
+        if(myButtonView == null){
+            assertNotNull(myButtonView);
         }
+
+        myButtonView.ok.getLocationOnScreen(position);
+        width = myButtonView.ok.getWidth();
+        position[0] =  ui.game.size*20 - (position[0] + width/2);
+        System.out.println("Found Button= "+(position[0] + width/2) +" " + (position[1] + width/2));
+        solo.clickOnScreen(position[0], position[1] + width/2);
     }
 }
