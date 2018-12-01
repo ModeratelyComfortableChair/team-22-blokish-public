@@ -1,10 +1,14 @@
 package org.scoutant.blokish.test;
 
 import android.test.ActivityInstrumentationTestCase2;
+import android.view.View;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 
 import com.robotium.solo.Solo;
 
 import org.scoutant.blokish.*;
+import org.scoutant.blokish.R;
 import org.scoutant.blokish.model.Square;
 
 import cucumber.api.java.en.Given;
@@ -73,12 +77,38 @@ public class RobotiumTests extends
     }
 
     private void confirmFirstPiece(){
+        int[] position = {10, 10};
+        int width = 0;
+        for (int i=0; i<ui.game.getChildCount(); i++) {
+            View v = ui.game.getChildAt(i);
+            if (v instanceof ButtonsView) {
 
+                ButtonsView myButtonView = (ButtonsView) v;
+                myButtonView.ok.getLocationOnScreen(position);
+                width = myButtonView.ok.getWidth();
+                System.out.println("Found Button= "+(position[0] + width/2) +" " + (position[1] + width/2));
+                solo.clickOnScreen(position[0] + width/2, position[1] + width/2);
+                break;
+            }
+
+
+        }
     }
 
     public void testDragFeature(){
 
         int result[][] = dragFirstPieceToCorner();
+        try {
+            Thread.sleep(2000);
+        } catch (Exception e){
+
+        }
+        confirmFirstPiece();
+        try {
+            Thread.sleep(2000);
+        } catch (Exception e){
+
+        }
         assertNotSame("X Position of piece must be different", result[0][0], result[1][0]);
         assertNotSame("X Position of piece must be different", result[0][1], result[1][1]);
 
