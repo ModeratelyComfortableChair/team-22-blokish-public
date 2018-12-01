@@ -2,19 +2,16 @@ package org.scoutant.blokish.test;
 
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.View;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.robotium.solo.Solo;
 
-import org.scoutant.blokish.*;
-import org.scoutant.blokish.R;
+import org.scoutant.blokish.ButtonsView;
+import org.scoutant.blokish.PieceUI;
+import org.scoutant.blokish.UI;
 import org.scoutant.blokish.model.Square;
 
 import java.util.Arrays;
-
-import cucumber.api.java.en.Given;
 
 
 public class RobotiumTests extends
@@ -48,25 +45,45 @@ public class RobotiumTests extends
     }
 
     /** TEST
-     *  Tests Scenario #X ,Feature: Drag Block Placement
+     *  Tests Scenario #1 ,Feature: Drag Block Placement
      */
-    public void testDragFeature(){
+    public void testDragFeature() {
 
-        int result[][] = dragFirstPieceToCorner();
+        int result[][] = dragFirstPieceToCorner(0);
         try {
             Thread.sleep(2000);
-        } catch (Exception e){
+        } catch (Exception e) {
 
         }
-        cancelPiece();
+
+        ButtonsView confirmButton = findButtonView();
+
+        boolean confirmVisible = false;
+
+        if (confirmButton != null) {
+            if (confirmButton.getVisibility() == View.VISIBLE && confirmButton.isShown()) {
+                confirmVisible = true;
+            }
+        }
+
+        assertEquals(true, confirmVisible);
+    }
+
+    /** TEST
+     *  Tests Scenario #2 ,Feature: Drag Block Placement
+     */
+    public void testInvalidPlacementWrongStartingCorner() {
+        dragFirstPieceToCorner(1);
         try {
             Thread.sleep(2000);
-        } catch (Exception e){
+        } catch (Exception e) {
 
         }
-        assertNotSame("X Position of piece must be different", result[0][0], result[1][0]);
-        assertNotSame("X Position of piece must be different", result[0][1], result[1][1]);
 
+        ButtonsView confirmButton = findButtonView();
+        boolean confirmClickable = confirmButton.isClickable();
+
+        assertEquals(false, confirmClickable);
     }
 
     /** TEST
@@ -81,7 +98,7 @@ public class RobotiumTests extends
             preUpdateScore = Integer.parseInt(redTab.getText().toString());
         }
 
-        int[][] moveResult = dragFirstPieceToCorner();
+        int[][] moveResult = dragFirstPieceToCorner(0);
         System.out.println("Move locations: \t"+Arrays.deepToString(moveResult)); //ToDO validate result of moving inital piece
         confirmPiece();
         solo.sleep(2000); // 2 seconds to ensure ui updated
@@ -116,7 +133,7 @@ public class RobotiumTests extends
      * @return  int[0] before = array of pixel locations before piece was moved, I.e. before[0] = old X, before[1] = old Y
      *          int[1] after = array of pixel locations after piece was moved, I.e. after[1] = new X, after[1] = new Y
      */
-    private int[][] dragFirstPieceToCorner(){
+    private int[][] dragFirstPieceToCorner(int color){
 
         solo.waitForActivity("UI", 2000);
 
@@ -141,7 +158,7 @@ public class RobotiumTests extends
         float endY = 0;
 
         //Note: in a new game the seeds() will return 1 Seed, the initial move
-        for(Square s: ui.game.game.boards.get(0).seeds()){
+        for(Square s: ui.game.game.boards.get(color).seeds()){
             endX = s.i*ui.game.size + ui.game.size/4;
             endY = s.j*ui.game.size + 6*ui.game.size;
 
@@ -159,8 +176,7 @@ public class RobotiumTests extends
     }
 
     private void setupGame(){
-        dragFirstPieceToCorner();
-
+        dragFirstPieceToCorner(0);
     }
 
     /** Helper
