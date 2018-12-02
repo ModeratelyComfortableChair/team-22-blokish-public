@@ -247,39 +247,6 @@ public class RobotiumTests extends ActivityInstrumentationTestCase2<UI> {
         //the size of the list of available red pieces is still 20 which means that the second piece has not been placed on the board
         assertEquals(20,ui.game.game.boards.get(COLOR).pieces.size());
     }
-
-
-    /** TEST --DONE
-     *  Tests New Scenario #17, Feature: Cancel Block Placement
-     *  "For non first round, I cancel a piece which does not meet any of the corners of another piece of my pieces"
-     */
-    public void testCancel_DoesNotMeetCornerProblem_PieceInUpperLeftCornerDuringNonFirstRound(){
-        dragPieceToCorner(FIRST_PIECE_TYPE, COLOR);
-        solo.sleep(100);
-        confirmPiece();
-        dragPieceToCorner(FOURTH_PIECE_TYPE, COLOR);
-        cancelPiece();
-
-        //the size of the list of available red pieces is still 20 which means that the second piece has not been placed on the board
-        assertEquals(20,ui.game.game.boards.get(COLOR).pieces.size());
-    }
-
-
-    /** TEST --DONE
-     *  Tests New Scenario #18, Feature: Cancel Block Placement
-     *  "For non first round, I cancel a piece which is on top of another piece of my pieces"
-     */
-    public void testCancel_IsOnTopProblem_PieceInUpperLeftCornerDuringNonFirstRound(){
-        dragPieceToCorner(FIRST_PIECE_TYPE, COLOR);
-        solo.sleep(100);
-        confirmPiece();
-        dragPieceToCorner(FIFTH_PIECE_TYPE, COLOR);
-        cancelPiece();
-
-        //the size of the list of available red pieces is still 20 which means that the second piece has not been placed on the board
-        assertEquals(20,ui.game.game.boards.get(COLOR).pieces.size());
-    }
-
     //HELPERS: -----------------------------------------------------------------------------------------
 
     /** Helper
