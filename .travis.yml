@@ -23,15 +23,16 @@ licenses:
 
 before_install:
     - yes | sdkmanager "platforms;android-23"
-    - emulator -avd test -no-skin -no-audio -no-window &
-    - echo no | android create avd --force -n test -t ${ANDROID_TARGET} --abi ${ANDROID_API}
-
+    - chmod +x gradlew
+    - chmod +x config.sh && ./config.sh
     #- docker pull ocaml/opam2
     #- docker run ocaml/opam2:ubuntu opam depext -i cohttp-lwt-unix tls
 
-before-script:
-  - android-wait-for-emulator
+before_script:
   - adb shell input keyevent 82 &
+  - emulator -avd test -no-skin -no-audio -no-window &
+  - echo no | android create avd --force -n test -t ${ANDROID_TARGET} --abi ${ANDROID_API}
+  - android-wait-for-emulator
 
 
 
