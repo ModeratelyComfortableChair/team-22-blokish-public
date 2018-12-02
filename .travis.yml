@@ -29,6 +29,7 @@ before_install:
 
 script:
   - ./gradlew clean
+  - chmod +x emulatorSetup.sh && ./emulatorSetup.sh
   - echo no | android create avd --force -n test -t ${ANDROID_TARGET} --abi ${ANDROID_API}
   - emulator -avd test -no-skin -no-audio -no-window &
   - android-wait-for-emulator
