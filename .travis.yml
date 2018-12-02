@@ -5,7 +5,7 @@ jdk: oraclejdk8
 
 env:
   global:
-   - ANDROID_TARGET=android-21
+   - ANDROID_TARGET=android-23
    - ANDROID_API=armeabi-v7a
    - ADB_INSTALL_TIMEOUT=5 # minutes
 
@@ -15,26 +15,28 @@ android:
     - tools
     - platform-tools
     - ${ANDROID_TARGET}
-    - build-tools-27.0.3
+    - build-tools-23.0.2
     - sys-img-${ANDROID_API}-${ANDROID_TARGET}
 licenses:
   - 'android-sdk-preview-license-.+'
   - 'android-sdk-license-.+'
 
 before_install:
-    - yes | sdkmanager "platforms;android-21"
+    - yes | sdkmanager "platforms;android-23"
+    - emulator -avd test -no-skin -no-audio -no-window &
+    - echo no | android create avd --force -n test -t ${ANDROID_TARGET} --abi ${ANDROID_API}
+
     #- docker pull ocaml/opam2
     #- docker run ocaml/opam2:ubuntu opam depext -i cohttp-lwt-unix tls
 
+before-script:
+  - android-wait-for-emulator
+  - adb shell input keyevent 82 &
+
+
 
 script:
-  - ./gradlew clean
-  - chmod +x emulatorSetup.sh && ./emulatorSetup.sh
-  - echo no | android create avd --force -n test -t ${ANDROID_TARGET} --abi ${ANDROID_API}
-  - emulator -avd test -no-skin -no-audio -no-window &
-  - android-wait-for-emulator
-  - adb shell setprop dalvik.vm.dexopt-flags v=n,o=v
-  - ./gradlew jacocoTestReport
+  - ./gradlew connectedAndroidTest
 
   #   Deliverable 1-2
   #- ./gradlew sonarqube -Dsonar.projectKey=ecse429-team-22-blokish -Dsonar.organization=ecse429-fall2018 -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=79fb0135e1e5b7726ad0e0e5f342c05823603c1d
