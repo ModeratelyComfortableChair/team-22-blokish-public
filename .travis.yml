@@ -8,7 +8,6 @@ env:
    - ANDROID_TARGET=android-23
    - ANDROID_API=armeabi-v7a
    - ADB_INSTALL_TIMEOUT=5 # minutes
-   - ANDROID_SDK_ROOT=${PWD}/android-sdk-linux
    - ANDROID_HOME=${PWD}/android-sdk-linux
 
 android:
