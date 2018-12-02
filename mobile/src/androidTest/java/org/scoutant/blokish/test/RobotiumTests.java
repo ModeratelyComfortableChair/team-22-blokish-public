@@ -40,6 +40,7 @@ public class RobotiumTests extends
 
     @Override
     public void tearDown() throws Exception {
+        solo.sleep(1000);
         solo.finishOpenedActivities();
         super.tearDown();
     }
@@ -71,7 +72,7 @@ public class RobotiumTests extends
     }
 
     /** TEST --Done
-     *  Tests Scenario #2 ,Feature: Drag Block Placement
+     *  Tests Scenario #3 ,Feature: Approve Block Placement
      */
     public void testInvalidPlacementWrongStartingCorner() {
         dragPieceToCorner(FIRST_PIECE_TYPE,1);
@@ -126,6 +127,43 @@ public class RobotiumTests extends
         cancelPiece();
 
     }*/
+
+    /** TEST --DONE
+     *  Tests Scenario #2, Feature:  Approve Block Placement
+     *  "For first round, I confirm a piece placed in my corner"
+     */
+    public void testConfirmPieceInUpperLeftCornerDuringFirstRound(){
+        dragPieceToCorner(FIRST_PIECE_TYPE, COLOR);
+        solo.sleep(100);
+        confirmPiece();
+        solo.sleep(2000);
+        //the size of the list of available pieces becomes 20 which means that the piece has been placed on the board
+        assertEquals(20,ui.game.game.boards.get(COLOR).pieces.size());
+    }
+
+    /** TEST --DONE
+     *  Tests Scenario #4, Feature:  Cancel Block Placement
+     *  "For first round, I cancel a piece placed in my corner"
+     */
+    public void testCancelPieceInUpperLeftCornerDuringFirstRound(){
+        dragPieceToCorner(FIRST_PIECE_TYPE, COLOR);
+        solo.sleep(100);
+        cancelPiece();
+        //the size of the list of available pieces is still 21 which means that the piece has not been placed on the board
+        assertEquals(21,ui.game.game.boards.get(COLOR).pieces.size());
+    }
+
+    /** TEST --DONE
+     *  Tests Scenario #5, Feature:  Cancel Block Placement
+     *  "For first round, I cancel a piece placed not in my corner"
+     */
+    public void testCancelPieceInUpperRightCornerDuringFirstRound(){
+        dragPieceToCorner(FIRST_PIECE_TYPE, 1);
+        solo.sleep(100);
+        cancelPiece();
+        //the size of the list of available pieces is still 21 which means that the piece has not been placed on the board
+        assertEquals(21,ui.game.game.boards.get(COLOR).pieces.size());
+    }
 
     //HELPERS: -----------------------------------------------------------------------------------------
 
@@ -192,7 +230,6 @@ public class RobotiumTests extends
         dragPieceToCorner(FIRST_PIECE_TYPE, COLOR);
         solo.sleep(100);
         confirmPiece();
-        solo.sleep(100);
         dragPieceToCorner(SECOND_PIECE_TYPE, COLOR);
         confirmPiece();
     }
@@ -213,6 +250,7 @@ public class RobotiumTests extends
         width = myButtonView.ok.getWidth();
         System.out.println("Found Button= "+(position[0] + width/2) +" " + (position[1] + width/2));
         solo.clickOnScreen(position[0] + width/2, position[1] + width/2);
+        solo.sleep(200);
     }
     /** Helper
      *  Find the Approve&Cancel ButtonView
@@ -248,5 +286,6 @@ public class RobotiumTests extends
         position[0] =  ui.game.size*20 - (position[0] + width/2);
         System.out.println("Found Button= "+(position[0] + width/2) +" " + (position[1] + width/2));
         solo.clickOnScreen(position[0], position[1] + width/2);
+        solo.sleep(200);
     }
 }
