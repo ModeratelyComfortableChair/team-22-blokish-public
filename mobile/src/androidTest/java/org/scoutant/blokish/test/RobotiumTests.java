@@ -23,8 +23,10 @@ public class RobotiumTests extends ActivityInstrumentationTestCase2<UI> {
 
     private static final String SECOND_PIECE_TYPE = "N5";
     private static final String THIRD_PIECE_TYPE = "L5"; // Backwards L (Bottom Left 1st piece available)
-    private static final String FOURTH_PIECE_TYPE = "T5";
-    private static final String FIFTH_PIECE_TYPE = "U5";
+//    private static final String FOURTH_PIECE_TYPE = "T5";
+//    private static final String FIFTH_PIECE_TYPE = "U5";
+    private static final String FOURTH_PIECE_TYPE = "Z5";
+    private static final String FIFTH_PIECE_TYPE = "Y5";
     private static final int COLOR = 0; //Red
 
     public RobotiumTests(){
@@ -55,7 +57,7 @@ public class RobotiumTests extends ActivityInstrumentationTestCase2<UI> {
     /** TEST -DONE
      *  Tests Scenario #1 ,Feature: Drag Block Placement
      */
-    public void test2DragFeature() {
+    public void testDragFeature() {
 
         int result[][] = dragPieceToCorner(FIRST_PIECE_TYPE, COLOR);
 
@@ -99,7 +101,7 @@ public class RobotiumTests extends ActivityInstrumentationTestCase2<UI> {
      *  Tests Scenario #12, Feature:  Update Game Score
      *  "Successfully add block to the board and update my score"
      */
-    public void test3ScoreUpdate(){
+    public void testScoreUpdate(){
         TextView redTab = ui.game.tabs[0]; //holds view containing red player's score
         
         int preUpdateScore = 0;
@@ -125,7 +127,7 @@ public class RobotiumTests extends ActivityInstrumentationTestCase2<UI> {
      *  Tests Scenario #2, Feature:  Approve Block Placement
      *  "For first round, I confirm a piece placed in my corner"
      */
-    public void test1ConfirmPieceInUpperLeftCornerDuringFirstRound(){
+    public void testConfirmPieceInUpperLeftCornerDuringFirstRound(){
         dragPieceToCorner(FIRST_PIECE_TYPE, COLOR);
         solo.sleep(100);
         confirmPiece();
@@ -203,7 +205,7 @@ public class RobotiumTests extends ActivityInstrumentationTestCase2<UI> {
      *  Tests New Scenario #14, Feature: Confirm Block Placement
      *  "For non first round, I confirm a piece which does not meet with the any of the corners of another piece of my pieces"
      */
-    public void testInvalidConfirm_DoesNotMeetCornerProblem_PieceInUpperLeftCornerDuringNonFirstRound(){
+    public void test11InvalidConfirm_DoesNotMeetCornerProblem_PieceInUpperLeftCornerDuringNonFirstRound(){
         dragPieceToCorner(FIRST_PIECE_TYPE, COLOR);
         solo.sleep(100);
         confirmPiece();
@@ -220,7 +222,7 @@ public class RobotiumTests extends ActivityInstrumentationTestCase2<UI> {
      *  Tests New Scenario #15, Feature: Confirm Block Placement
      *  "For non first round, I confirm a piece which is on top of another piece of my pieces"
      */
-    public void testInvalidConfirm_IsOnTopProblem_PieceInUpperLeftCornerDuringNonFirstRound(){
+    public void test12InvalidConfirm_IsOnTopProblem_PieceInUpperLeftCornerDuringNonFirstRound(){
         dragPieceToCorner(FIRST_PIECE_TYPE, COLOR);
         solo.sleep(100);
         confirmPiece();
@@ -247,6 +249,39 @@ public class RobotiumTests extends ActivityInstrumentationTestCase2<UI> {
         //the size of the list of available red pieces is still 20 which means that the second piece has not been placed on the board
         assertEquals(20,ui.game.game.boards.get(COLOR).pieces.size());
     }
+
+
+    /** TEST --DONE
+     *  Tests New Scenario #17, Feature: Cancel Block Placement
+     *  "For non first round, I cancel a piece which does not meet any of the corners of another piece of my pieces"
+     */
+    public void testCancel111_DoesNotMeetCornerProblem_PieceInUpperLeftCornerDuringNonFirstRound(){
+        dragPieceToCorner(FIRST_PIECE_TYPE, COLOR);
+        solo.sleep(100);
+        confirmPiece();
+        dragPieceToCorner(FOURTH_PIECE_TYPE, COLOR);
+        cancelPiece();
+
+        //the size of the list of available red pieces is still 20 which means that the second piece has not been placed on the board
+        assertEquals(20,ui.game.game.boards.get(COLOR).pieces.size());
+    }
+
+
+    /** TEST --DONE
+     *  Tests New Scenario #18, Feature: Cancel Block Placement
+     *  "For non first round, I cancel a piece which is on top of another piece of my pieces"
+     */
+    public void testCancel112_IsOnTopProblem_PieceInUpperLeftCornerDuringNonFirstRound(){
+        dragPieceToCorner(FIRST_PIECE_TYPE, COLOR);
+        solo.sleep(100);
+        confirmPiece();
+        dragPieceToCorner(FIFTH_PIECE_TYPE, COLOR);
+        cancelPiece();
+
+        //the size of the list of available red pieces is still 20 which means that the second piece has not been placed on the board
+        assertEquals(20,ui.game.game.boards.get(COLOR).pieces.size());
+    }
+
     //HELPERS: -----------------------------------------------------------------------------------------
 
     /** Helper
@@ -305,7 +340,7 @@ public class RobotiumTests extends ActivityInstrumentationTestCase2<UI> {
         }
 
         if(type.equals(FIFTH_PIECE_TYPE)){
-            endX -= 2*ui.game.size;
+//            endX -= ui.game.size;
             endY -= 2*ui.game.size;
         }
 
