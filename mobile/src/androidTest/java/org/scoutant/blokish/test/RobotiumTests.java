@@ -14,16 +14,17 @@ import org.scoutant.blokish.model.Square;
 import java.util.Arrays;
 
 
-public class RobotiumTests extends
-        ActivityInstrumentationTestCase2<UI> {
+public class RobotiumTests extends ActivityInstrumentationTestCase2<UI> {
 
     private Solo solo;
     private UI ui;
     //Piece string tags found in Board.java
     private static final String FIRST_PIECE_TYPE = "I5"; //Vertical Line (Top Left 1st piece available)
 
-    private static final String SECOND_PIECE_TYPE = "N5"; //Vertical Line (Top Left 1st piece available)
+    private static final String SECOND_PIECE_TYPE = "N5";
     private static final String THIRD_PIECE_TYPE = "L5"; // Backwards L (Bottom Left 1st piece available)
+    private static final String FOURTH_PIECE_TYPE = "T5";
+    private static final String FIFTH_PIECE_TYPE = "U5";
     private static final int COLOR = 0; //Red
 
     public RobotiumTests(){
@@ -37,10 +38,16 @@ public class RobotiumTests extends
         ui = (UI) getActivity();
     }
 
-
     @Override
     public void tearDown() throws Exception {
         solo.sleep(1000);
+
+        solo.getCurrentActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                ui.newgame();   //prepare a new game for next test case, if any
+            }
+        });
         solo.finishOpenedActivities();
         super.tearDown();
     }
@@ -48,7 +55,7 @@ public class RobotiumTests extends
     /** TEST -DONE
      *  Tests Scenario #1 ,Feature: Drag Block Placement
      */
-    public void testDragFeature() {
+    public void test2DragFeature() {
 
         int result[][] = dragPieceToCorner(FIRST_PIECE_TYPE, COLOR);
 
@@ -92,7 +99,7 @@ public class RobotiumTests extends
      *  Tests Scenario #12, Feature:  Update Game Score
      *  "Successfully add block to the board and update my score"
      */
-    public void testScoreUpdate(){
+    public void test3ScoreUpdate(){
         TextView redTab = ui.game.tabs[0]; //holds view containing red player's score
         
         int preUpdateScore = 0;
@@ -114,30 +121,16 @@ public class RobotiumTests extends
     }
 
 
-     /*TODO: Implement assertion
-    //Check to see if player can still play the piece. If not, then the test is successful.
-    public void testConfirmFirstPiece(){
-        dragPieceToCorner(FIRST_PIECE_TYPE, COLOR);
-        confirmPiece();
-
-    }
-    //Check to see if player can still play the piece. If not, then the test is successful.
-    public void testCancelFirstPiece(){
-        dragPieceToCorner(FIRST_PIECE_TYPE, COLOR);
-        cancelPiece();
-
-    }*/
-
     /** TEST --DONE
      *  Tests Scenario #2, Feature:  Approve Block Placement
      *  "For first round, I confirm a piece placed in my corner"
      */
-    public void testConfirmPieceInUpperLeftCornerDuringFirstRound(){
+    public void test1ConfirmPieceInUpperLeftCornerDuringFirstRound(){
         dragPieceToCorner(FIRST_PIECE_TYPE, COLOR);
         solo.sleep(100);
         confirmPiece();
         solo.sleep(2000);
-        //the size of the list of available pieces becomes 20 which means that the piece has been placed on the board
+        //the size of the list of available red pieces becomes 20 which means that the piece has been placed on the board
         assertEquals(20,ui.game.game.boards.get(COLOR).pieces.size());
     }
 
@@ -149,7 +142,7 @@ public class RobotiumTests extends
         dragPieceToCorner(FIRST_PIECE_TYPE, COLOR);
         solo.sleep(100);
         cancelPiece();
-        //the size of the list of available pieces is still 21 which means that the piece has not been placed on the board
+        //the size of the list of available red pieces is still 21 which means that the piece has not been placed on the board
         assertEquals(21,ui.game.game.boards.get(COLOR).pieces.size());
     }
 
@@ -161,8 +154,130 @@ public class RobotiumTests extends
         dragPieceToCorner(FIRST_PIECE_TYPE, 1);
         solo.sleep(100);
         cancelPiece();
-        //the size of the list of available pieces is still 21 which means that the piece has not been placed on the board
+        //the size of the list of available red pieces is still 21 which means that the piece has not been placed on the board
         assertEquals(21,ui.game.game.boards.get(COLOR).pieces.size());
+    }
+
+    /** TEST --DONE
+     *  Tests Scenario #6, Feature: Confirm Block Placement
+     *  "For non first round, I confirm a piece which meets with the corner of another of my pieces, and isn’t on another piece or at the side of another piece"
+     */
+    public void testValidConfirmPieceInUpperLeftCornerDuringNonFirstRound(){
+        setupGame();
+        //the size of the list of available red pieces becomes 19 which means that the second piece has been placed on the board
+        assertEquals(19,ui.game.game.boards.get(COLOR).pieces.size());
+    }
+
+    /** TEST --DONE
+     *  Tests Scenario #6, Feature: Cancel Block Placement
+     *  "For non first round, I confirm a piece which meets with the corner of another of my pieces, and isn’t on another piece or at the side of another piece"
+     */
+    public void testCancelPiece_WhichMeetsWithAnotherCorner_InUpperLeftCornerDuringNonFirstRound(){
+        dragPieceToCorner(FIRST_PIECE_TYPE, COLOR);
+        solo.sleep(100);
+        confirmPiece();
+        dragPieceToCorner(SECOND_PIECE_TYPE, COLOR);
+        cancelPiece();
+
+        //the size of the list of available red pieces is still 20 which means that the second piece has not been placed on the board
+        assertEquals(20,ui.game.game.boards.get(COLOR).pieces.size());
+    }
+
+    /** TEST --DONE
+     *  Tests New Scenario #13, Feature: Confirm Block Placement
+     *  "For non first round, I confirm a piece which has a side that lines up on another piece of my pieces"
+     */
+    public void testInvalidConfirm_SideLineUpProblem_PieceInUpperLeftCornerDuringNonFirstRound(){
+        dragPieceToCorner(FIRST_PIECE_TYPE, COLOR);
+        solo.sleep(100);
+        confirmPiece();
+        dragPieceToCorner(THIRD_PIECE_TYPE, COLOR);
+
+        ButtonsView confirmButton = findButtonView();
+        boolean confirmClickable = confirmButton.isClickable();
+
+        assertEquals(false, confirmClickable);
+    }
+
+    /** TEST --DONE
+     *  Tests New Scenario #14, Feature: Confirm Block Placement
+     *  "For non first round, I confirm a piece which does not meet with the any of the corners of another piece of my pieces"
+     */
+    public void testInvalidConfirm_DoesNotMeetCornerProblem_PieceInUpperLeftCornerDuringNonFirstRound(){
+        dragPieceToCorner(FIRST_PIECE_TYPE, COLOR);
+        solo.sleep(100);
+        confirmPiece();
+        dragPieceToCorner(FOURTH_PIECE_TYPE, COLOR);
+
+        ButtonsView confirmButton = findButtonView();
+        boolean confirmClickable = confirmButton.isClickable();
+
+        assertEquals(false, confirmClickable);
+    }
+
+
+    /** TEST --DONE
+     *  Tests New Scenario #15, Feature: Confirm Block Placement
+     *  "For non first round, I confirm a piece which is on top of another piece of my pieces"
+     */
+    public void testInvalidConfirm_IsOnTopProblem_PieceInUpperLeftCornerDuringNonFirstRound(){
+        dragPieceToCorner(FIRST_PIECE_TYPE, COLOR);
+        solo.sleep(100);
+        confirmPiece();
+        dragPieceToCorner(FIFTH_PIECE_TYPE, COLOR);
+
+        ButtonsView confirmButton = findButtonView();
+        boolean confirmClickable = confirmButton.isClickable();
+
+        assertEquals(false, confirmClickable);
+    }
+
+
+    /** TEST --DONE
+     *  Tests New Scenario #16, Feature: Cancel Block Placement
+     *  "For non first round, I cancel a piece which has a side that lines up on another piece of my pieces"
+     */
+    public void testCancel_SideLineUpProblem_PieceInUpperLeftCornerDuringNonFirstRound(){
+        dragPieceToCorner(FIRST_PIECE_TYPE, COLOR);
+        solo.sleep(100);
+        confirmPiece();
+        dragPieceToCorner(THIRD_PIECE_TYPE, COLOR);
+        cancelPiece();
+
+        //the size of the list of available red pieces is still 20 which means that the second piece has not been placed on the board
+        assertEquals(20,ui.game.game.boards.get(COLOR).pieces.size());
+    }
+
+
+    /** TEST --DONE
+     *  Tests New Scenario #17, Feature: Cancel Block Placement
+     *  "For non first round, I cancel a piece which does not meet any of the corners of another piece of my pieces"
+     */
+    public void testCancel_DoesNotMeetCornerProblem_PieceInUpperLeftCornerDuringNonFirstRound(){
+        dragPieceToCorner(FIRST_PIECE_TYPE, COLOR);
+        solo.sleep(100);
+        confirmPiece();
+        dragPieceToCorner(FOURTH_PIECE_TYPE, COLOR);
+        cancelPiece();
+
+        //the size of the list of available red pieces is still 20 which means that the second piece has not been placed on the board
+        assertEquals(20,ui.game.game.boards.get(COLOR).pieces.size());
+    }
+
+
+    /** TEST --DONE
+     *  Tests New Scenario #18, Feature: Cancel Block Placement
+     *  "For non first round, I cancel a piece which is on top of another piece of my pieces"
+     */
+    public void testCancel_IsOnTopProblem_PieceInUpperLeftCornerDuringNonFirstRound(){
+        dragPieceToCorner(FIRST_PIECE_TYPE, COLOR);
+        solo.sleep(100);
+        confirmPiece();
+        dragPieceToCorner(FIFTH_PIECE_TYPE, COLOR);
+        cancelPiece();
+
+        //the size of the list of available red pieces is still 20 which means that the second piece has not been placed on the board
+        assertEquals(20,ui.game.game.boards.get(COLOR).pieces.size());
     }
 
     //HELPERS: -----------------------------------------------------------------------------------------
@@ -211,6 +326,20 @@ public class RobotiumTests extends
         if(type.equals(SECOND_PIECE_TYPE)){
             endX += 2*ui.game.size;
             endY -= ui.game.size;
+        }
+        if(type.equals(THIRD_PIECE_TYPE)){
+//            endX += 2*ui.game.size;
+            endY -= 2*ui.game.size;
+        }
+
+        if(type.equals(FOURTH_PIECE_TYPE)){
+//            endX += 2*ui.game.size;
+            endY += 2*ui.game.size;
+        }
+
+        if(type.equals(FIFTH_PIECE_TYPE)){
+            endX -= 2*ui.game.size;
+            endY -= 2*ui.game.size;
         }
 
         //System.out.println("Starting Location: "+startX +" " + startY);
