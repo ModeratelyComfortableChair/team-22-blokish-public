@@ -24,7 +24,7 @@ licenses:
   - 'android-sdk-license-.+'
 
 before_install:
-    -mkdir -p $ANDROID_SDK_ROOT
+    - mkdir -p $ANDROID_SDK_ROOT
     - yes | sdkmanager --sdk_root=$ANDROID_SDK_ROOT "platforms;android-23"
     - export PATH=${ANDROID_SDK_ROOT}/tools/bin:$PATH
     #- docker pull ocaml/opam2
