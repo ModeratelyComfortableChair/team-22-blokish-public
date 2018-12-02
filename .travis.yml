@@ -5,7 +5,7 @@ jdk: oraclejdk8
 
 env:
   global:
-   - ANDROID_TARGET=android-25
+   - ANDROID_TARGET=android-21
    - ANDROID_API=armeabi-v7a
    - ADB_INSTALL_TIMEOUT=5 # minutes
 
@@ -22,7 +22,7 @@ licenses:
   - 'android-sdk-license-.+'
 
 before_install:
-    - yes | sdkmanager "platforms;android-25"
+    - yes | sdkmanager "platforms;android-21"
     #- docker pull ocaml/opam2
     #- docker run ocaml/opam2:ubuntu opam depext -i cohttp-lwt-unix tls
 
