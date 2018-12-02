@@ -2,19 +2,16 @@ package org.scoutant.blokish.test;
 
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.View;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.robotium.solo.Solo;
 
-import org.scoutant.blokish.*;
-import org.scoutant.blokish.R;
+import org.scoutant.blokish.ButtonsView;
+import org.scoutant.blokish.PieceUI;
+import org.scoutant.blokish.UI;
 import org.scoutant.blokish.model.Square;
 
 import java.util.Arrays;
-
-import cucumber.api.java.en.Given;
 
 
 public class RobotiumTests extends
@@ -24,7 +21,7 @@ public class RobotiumTests extends
     private UI ui;
     //Piece string tags found in Board.java
     private static final String FIRST_PIECE_TYPE = "I5"; //Vertical Line (Top Left 1st piece available)
-    //TODO: decide piece type
+
     private static final String SECOND_PIECE_TYPE = "N5"; //Vertical Line (Top Left 1st piece available)
     private static final String THIRD_PIECE_TYPE = "L5"; // Backwards L (Bottom Left 1st piece available)
     private static final int COLOR = 0; //Red
@@ -47,26 +44,47 @@ public class RobotiumTests extends
         super.tearDown();
     }
 
-    /** TEST
-     *  Tests Scenario #X ,Feature: Drag Block Placement
+    /** TEST -DONE
+     *  Tests Scenario #1 ,Feature: Drag Block Placement
      */
-    public void testDragFeature(){
+    public void testDragFeature() {
 
         int result[][] = dragPieceToCorner(FIRST_PIECE_TYPE, COLOR);
+
         try {
             Thread.sleep(2000);
-        } catch (Exception e){
+        } catch (Exception e) {
 
         }
-        cancelPiece();
+
+        ButtonsView confirmButton = findButtonView();
+
+        boolean confirmVisible = false;
+
+        if (confirmButton != null) {
+            if (confirmButton.getVisibility() == View.VISIBLE && confirmButton.isShown()) {
+                confirmVisible = true;
+            }
+        }
+
+        assertEquals(true, confirmVisible);
+    }
+
+    /** TEST --Done
+     *  Tests Scenario #2 ,Feature: Drag Block Placement
+     */
+    public void testInvalidPlacementWrongStartingCorner() {
+        dragPieceToCorner(FIRST_PIECE_TYPE,1);
         try {
             Thread.sleep(2000);
-        } catch (Exception e){
+        } catch (Exception e) {
 
         }
-        assertNotSame("X Position of piece must be different", result[0][0], result[1][0]);
-        assertNotSame("X Position of piece must be different", result[0][1], result[1][1]);
 
+        ButtonsView confirmButton = findButtonView();
+        boolean confirmClickable = confirmButton.isClickable();
+
+        assertEquals(false, confirmClickable);
     }
 
     /** TEST --DONE
@@ -112,7 +130,7 @@ public class RobotiumTests extends
     //HELPERS: -----------------------------------------------------------------------------------------
 
     /** Helper
-     *  Drags the specified piece upper left seed
+     *  Drags the specified piece to specified seed
      *  Assumes either new game or only first move (First piece to upperLeft)
      *  Assumes screen hasn't been altered beforehand
      *  Assumes Red player
@@ -167,6 +185,9 @@ public class RobotiumTests extends
         return result;
     }
 
+    /** HELPER
+     *  Sets up a game with I5 in top Left, N5 after
+     */
     private void setupGame(){
         dragPieceToCorner(FIRST_PIECE_TYPE, COLOR);
         solo.sleep(100);

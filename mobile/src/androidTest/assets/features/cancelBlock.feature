@@ -17,8 +17,8 @@ Feature: Cancel Block Placement
 
   Examples:
     |round      | position
-    first_round | Upper_Left_Corcer
-    first_round | Upper_Right_Corcer
+    first_round | Upper_Left_Corner
+    first_round | Upper_Right_Corner
     non_first_round | position which meets with the corner of another of my pieces, and isn’t on another piece or at the side of another piece  | clickable
     non_first_round | position which meets with the corner of another of my pieces, but is on another piece  | clickable
     non_first_round | position which meets with the corner of another of my pieces, but has a side that lines up along another piece of my pieces  | clickable
