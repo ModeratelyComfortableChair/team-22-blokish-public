@@ -9,8 +9,8 @@ buildscript {
 apply plugin: 'com.android.application'
 apply plugin: 'jacoco-android'
 android {
-    compileSdkVersion 24// Api 8.1  NOTE: this might need to be 28
-    buildToolsVersion "24.0.3"
+    compileSdkVersion 23// Api 8.1  NOTE: this might need to be 28
+    buildToolsVersion "23.0.2"
     project.archivesBaseName = "blokish-3.3" // TODO sync with Manifest
 
     compileOptions {
@@ -34,9 +34,9 @@ android {
 //        testImplementation 'org.mockito:mockito-core:2.23.0'
 
         testCompile 'org.evosuite:evosuite-standalone-runtime:1.0.6'
-        implementation 'com.android.support:appcompat-v7:24.1.1'
-        implementation 'com.android.support:support-v4:24.1.1'
-        implementation 'com.android.support:design:24.1.1'
+        implementation 'com.android.support:appcompat-v7:23.0.2'
+        implementation 'com.android.support:support-v4:23.0.2'
+        implementation 'com.android.support:design:23.0.2'
         implementation 'com.jayway.android.robotium:robotium-solo:5.2.1'
 
         //CUCUMBER. NOTE: runner not included as we are not linking .feature to tests
