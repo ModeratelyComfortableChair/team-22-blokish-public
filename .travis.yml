@@ -9,6 +9,7 @@ env:
    - ANDROID_API=armeabi-v7a
    - ADB_INSTALL_TIMEOUT=5 # minutes
    - ANDROID_HOME=${PWD}/android-sdk-linux
+   - ANDROID_SDK_ROOT=/opt/android
 
 android:
   components:
@@ -23,13 +24,13 @@ licenses:
   - 'android-sdk-license-.+'
 
 before_install:
-    - yes | sdkmanager "platforms;android-23"
-    - chmod +x gradlew
+    -mkdir -p $ANDROID_SDK_ROOT
+    - yes | sdkmanager --sdk_root=$ANDROID_SDK_ROOT "platforms;android-23"
+    - export PATH=${ANDROID_SDK_ROOT}/tools/bin:$PATH
     #- docker pull ocaml/opam2
     #- docker run ocaml/opam2:ubuntu opam depext -i cohttp-lwt-unix tls
 
 before_script:
-  - adb shell input keyevent 82 &
   - emulator -avd test -no-skin -no-audio -no-window &
   - echo no | android create avd --force -n test -t ${ANDROID_TARGET} --abi ${ANDROID_API}
   - android-wait-for-emulator
