@@ -23,8 +23,6 @@ public class RobotiumTests extends ActivityInstrumentationTestCase2<UI> {
 
     private static final String SECOND_PIECE_TYPE = "N5";
     private static final String THIRD_PIECE_TYPE = "L5"; // Backwards L (Bottom Left 1st piece available)
-//    private static final String FOURTH_PIECE_TYPE = "T5";
-//    private static final String FIFTH_PIECE_TYPE = "U5";
     private static final String FOURTH_PIECE_TYPE = "Z5";
     private static final String FIFTH_PIECE_TYPE = "Y5";
     private static final int COLOR = 0; //Red
@@ -54,12 +52,13 @@ public class RobotiumTests extends ActivityInstrumentationTestCase2<UI> {
         super.tearDown();
     }
 
-    /** TEST -DONE
-     *  Tests Scenario #1 ,Feature: Drag Block Placement
+    /**
+     *  Tests Scenario #1: “For any round, I drag a piece anywhere on the board"
+     *  Feature #1: Drag Block onto Board
      */
-    public void testDragFeature() {
+    public void testDragBlockOntoBoard_AnyRound() {
 
-        int result[][] = dragPieceToCorner(FIRST_PIECE_TYPE, COLOR);
+        int result[][] = dragPieceToSpecificLocation(FIRST_PIECE_TYPE, COLOR);
 
         try {
             Thread.sleep(2000);
@@ -80,11 +79,23 @@ public class RobotiumTests extends ActivityInstrumentationTestCase2<UI> {
         assertEquals(true, confirmVisible);
     }
 
-    /** TEST --Done
-     *  Tests Scenario #3 ,Feature: Approve Block Placement
+    /**
+     *  Tests Scenario #2: “For first round, I confirm a piece placed in my corner”
+     *  Feature #2:  Approve Block Placement
      */
-    public void testInvalidPlacementWrongStartingCorner() {
-        dragPieceToCorner(FIRST_PIECE_TYPE,1);
+    public void testConfirmPieceInMyCorner_FirstRound(){    //my corner is the upper-left corner
+        addFirstPieceToBoard();
+        solo.sleep(2000);
+        //the size of the list of available red pieces should become 20, which means that the piece has been placed on the board
+        assertEquals(20,ui.game.game.boards.get(COLOR).pieces.size());
+    }
+
+    /**
+     *  Tests Scenario #3: “For first round, I confirm a piece placed NOT in my corner”
+     *  Feature #3: Approve Block Placement
+     */
+    public void testConfirmPieceNotInMyCorner_FirstRound() {
+        dragPieceToSpecificLocation(FIRST_PIECE_TYPE,1);
         try {
             Thread.sleep(2000);
         } catch (Exception e) {
@@ -94,22 +105,127 @@ public class RobotiumTests extends ActivityInstrumentationTestCase2<UI> {
         ButtonsView confirmButton = findButtonView();
         boolean confirmClickable = confirmButton.isClickable();
 
+        //the confirm button should not be clickable, since this is the first round and the piece is not placed in my corner
         assertEquals(false, confirmClickable);
     }
 
-    /** TEST --DONE
-     *  Tests Scenario #12, Feature:  Update Game Score
-     *  "Successfully add block to the board and update my score"
+    /**
+     *  Tests Scenario #4: “For first round, I cancel a piece placed in my corner”
+     *  Feature #3: Cancel Block Placement
      */
-    public void testScoreUpdate(){
+    public void testCancelPieceInMyCorner_FirstRound(){
+        dragPieceToSpecificLocation(FIRST_PIECE_TYPE, COLOR);
+        solo.sleep(100);
+        cancelPiece();
+        //the size of the list of available red pieces should still be 21, which means that the piece has not been placed on the board
+        assertEquals(21,ui.game.game.boards.get(COLOR).pieces.size());
+    }
+
+    /**
+     *  Tests Scenario #5: "For first round, I cancel a piece placed NOT in my corner"
+     *  Feature #3: Cancel Block Placement
+     */
+    public void testCancelPieceNotInMyCorner_FirstRound(){
+        dragPieceToSpecificLocation(FIRST_PIECE_TYPE, 1);
+        solo.sleep(100);
+        cancelPiece();
+        //the size of the list of available red pieces should still be 21, which means that the piece has not been placed on the board
+        assertEquals(21,ui.game.game.boards.get(COLOR).pieces.size());
+    }
+
+    /**
+     *  Tests Scenario #6: "For non first round, I confirm a piece which meets with the corner of another of my pieces, and isn’t on or at the side of another piece of my pieces”
+     *  Feature #2: Confirm Block Placement
+     */
+    public void testConfirmValidPiecePlacement_NonFirstRound(){
+        addFirstPieceToBoard();
+        dragPieceToSpecificLocation(SECOND_PIECE_TYPE, COLOR);
+        confirmPiece();
+        //the size of the list of available red pieces should become 19, which means that the second piece has been placed on the board
+        assertEquals(19,ui.game.game.boards.get(COLOR).pieces.size());
+    }
+
+    /**
+     *  Tests Scenario #7: "For non first round, I confirm a piece which is on top of another piece of my pieces”
+     *  Feature #2: Confirm Block Placement
+     */
+    public void testConfirmInvalidPiecePlacement_IsOnTopOfAnotherPieceViolation_NonFirstRound(){
+        addFirstPieceToBoard();
+        dragPieceToSpecificLocation(FIFTH_PIECE_TYPE, COLOR);
+
+        ButtonsView confirmButton = findButtonView();
+        boolean confirmClickable = confirmButton.isClickable();
+
+        //the confirm button should not be clickable, because the piece is placed in at an invalid position on the board
+        assertEquals(false, confirmClickable);
+    }
+
+    /**
+     *  Tests Scenario #8: "For non first round, I confirm a piece which has a side that lines up with another piece of my pieces"
+     *  Feature #2: Confirm Block Placement
+     */
+    public void testConfirmInvalidPiecePlacement_SideLineUpWithAnotherPieceViolation_NonFirstRound(){
+        addFirstPieceToBoard();
+        dragPieceToSpecificLocation(THIRD_PIECE_TYPE, COLOR);
+
+        ButtonsView confirmButton = findButtonView();
+        boolean confirmClickable = confirmButton.isClickable();
+        //the confirm button should not be clickable, because the piece is placed in at an invalid position on the board
+        assertEquals(false, confirmClickable);
+    }
+
+    /**
+     *  Tests Scenario #9: "For non first round, I cancel a piece which meets with the corner of another of my pieces, and isn’t on or at the side of another piece of my pieces"
+     *  Feature #3: Cancel Block Placement
+     */
+    public void testCancelValidPiecePlacement_NonFirstRound(){
+        addFirstPieceToBoard();
+        dragPieceToSpecificLocation(SECOND_PIECE_TYPE, COLOR);
+        cancelPiece();
+
+        //the size of the list of available red pieces should still be 20, which means that the second piece has not been placed on the board
+        assertEquals(20,ui.game.game.boards.get(COLOR).pieces.size());
+    }
+
+    /**
+     *  Tests Scenario #10: "For non first round, I cancel a piece which is on top of another piece"
+     *  Feature #3: Cancel Block Placement
+     */
+    public void testCancelInvalidPiecePlacement_IsOnTopOfAnotherPieceViolation_NonFirstRound(){
+        addFirstPieceToBoard();
+        dragPieceToSpecificLocation(FIFTH_PIECE_TYPE, COLOR);
+        cancelPiece();
+
+        //the size of the list of available red pieces should still be 20, which means that the second piece has not been placed on the board
+        assertEquals(20,ui.game.game.boards.get(COLOR).pieces.size());
+    }
+
+    /**
+     *  Tests Scenario #11: "For non first round, I cancel a piece which has a side that lines up with another piece of my pieces”
+     *  Feature #3: Cancel Block Placement
+     */
+    public void testCancelInvalidPiecePlacement_SideLineUpWithAnotherPieceViolation_NonFirstRound(){
+        addFirstPieceToBoard();
+        dragPieceToSpecificLocation(THIRD_PIECE_TYPE, COLOR);
+        cancelPiece();
+
+        //the size of the list of available red pieces should still be 20, which means that the second piece has not been placed on the board
+        assertEquals(20,ui.game.game.boards.get(COLOR).pieces.size());
+    }
+
+    /**
+     * Tests Scenario #12: "For any round, I successfully confirm a valid piece placement and my score increases by the number of squares in that piece"
+     * Feature #4: Update Game Score
+     */
+    public void testScoreUpdate_AnyRound(){
         TextView redTab = ui.game.tabs[0]; //holds view containing red player's score
-        
+
         int preUpdateScore = 0;
         if(!redTab.getText().toString().isEmpty()){ //score stored as string, initially empty string
             preUpdateScore = Integer.parseInt(redTab.getText().toString());
         }
 
-        int[][] moveResult = dragPieceToCorner(FIRST_PIECE_TYPE, COLOR);
+        int[][] moveResult = dragPieceToSpecificLocation(FIRST_PIECE_TYPE, COLOR);
         System.out.println("Move locations: \t"+Arrays.deepToString(moveResult)); //ToDO validate result of moving inital piece
         confirmPiece();
         solo.sleep(2000); // 2 seconds to ensure ui updated
@@ -117,184 +233,52 @@ public class RobotiumTests extends ActivityInstrumentationTestCase2<UI> {
         int postUpdateScore = 0;
         if(!redTab.getText().toString().isEmpty()){
             postUpdateScore = Integer.parseInt(redTab.getText().toString());
-        } 
+        }
 
-        assertEquals(5, postUpdateScore - preUpdateScore); //I.e. score increased by 5
+        //my score should get increased by 5
+        assertEquals(5, postUpdateScore - preUpdateScore);
     }
 
-
-    /** TEST --DONE
-     *  Tests Scenario #2, Feature:  Approve Block Placement
-     *  "For first round, I confirm a piece placed in my corner"
+    /**
+     *  Tests Scenario #13: "For non first round, I confirm a piece which does not meet with the any of the corners of another piece of my pieces"
+     *  Feature #3: Confirm Block Placement
      */
-    public void testConfirmPieceInUpperLeftCornerDuringFirstRound(){
-        dragPieceToCorner(FIRST_PIECE_TYPE, COLOR);
-        solo.sleep(100);
-        confirmPiece();
-        solo.sleep(2000);
-        //the size of the list of available red pieces becomes 20 which means that the piece has been placed on the board
-        assertEquals(20,ui.game.game.boards.get(COLOR).pieces.size());
-    }
-
-    /** TEST --DONE
-     *  Tests Scenario #4, Feature:  Cancel Block Placement
-     *  "For first round, I cancel a piece placed in my corner"
-     */
-    public void testCancelPieceInUpperLeftCornerDuringFirstRound(){
-        dragPieceToCorner(FIRST_PIECE_TYPE, COLOR);
-        solo.sleep(100);
-        cancelPiece();
-        //the size of the list of available red pieces is still 21 which means that the piece has not been placed on the board
-        assertEquals(21,ui.game.game.boards.get(COLOR).pieces.size());
-    }
-
-    /** TEST --DONE
-     *  Tests Scenario #5, Feature:  Cancel Block Placement
-     *  "For first round, I cancel a piece placed not in my corner"
-     */
-    public void testCancelPieceInUpperRightCornerDuringFirstRound(){
-        dragPieceToCorner(FIRST_PIECE_TYPE, 1);
-        solo.sleep(100);
-        cancelPiece();
-        //the size of the list of available red pieces is still 21 which means that the piece has not been placed on the board
-        assertEquals(21,ui.game.game.boards.get(COLOR).pieces.size());
-    }
-
-    /** TEST --DONE
-     *  Tests Scenario #6, Feature: Confirm Block Placement
-     *  "For non first round, I confirm a piece which meets with the corner of another of my pieces, and isn’t on another piece or at the side of another piece"
-     */
-    public void testValidConfirmPieceInUpperLeftCornerDuringNonFirstRound(){
-        setupGame();
-        //the size of the list of available red pieces becomes 19 which means that the second piece has been placed on the board
-        assertEquals(19,ui.game.game.boards.get(COLOR).pieces.size());
-    }
-
-    /** TEST --DONE
-     *  Tests Scenario #6, Feature: Cancel Block Placement
-     *  "For non first round, I confirm a piece which meets with the corner of another of my pieces, and isn’t on another piece or at the side of another piece"
-     */
-    public void testCancelPiece_WhichMeetsWithAnotherCorner_InUpperLeftCornerDuringNonFirstRound(){
-        dragPieceToCorner(FIRST_PIECE_TYPE, COLOR);
-        solo.sleep(100);
-        confirmPiece();
-        dragPieceToCorner(SECOND_PIECE_TYPE, COLOR);
-        cancelPiece();
-
-        //the size of the list of available red pieces is still 20 which means that the second piece has not been placed on the board
-        assertEquals(20,ui.game.game.boards.get(COLOR).pieces.size());
-    }
-
-    /** TEST --DONE
-     *  Tests New Scenario #13, Feature: Confirm Block Placement
-     *  "For non first round, I confirm a piece which has a side that lines up on another piece of my pieces"
-     */
-    public void testInvalidConfirm_SideLineUpProblem_PieceInUpperLeftCornerDuringNonFirstRound(){
-        dragPieceToCorner(FIRST_PIECE_TYPE, COLOR);
-        solo.sleep(100);
-        confirmPiece();
-        dragPieceToCorner(THIRD_PIECE_TYPE, COLOR);
+    public void testConfirmInvalidPiecePlacement_DoesNotMeetWithAnyCornerViolation_NonFirstRound(){
+        addFirstPieceToBoard();
+        dragPieceToSpecificLocation(FOURTH_PIECE_TYPE, COLOR);
 
         ButtonsView confirmButton = findButtonView();
         boolean confirmClickable = confirmButton.isClickable();
 
+        //the confirm button should not be clickable, because the piece does not meet with the any of the corners of another piece of my pieces
         assertEquals(false, confirmClickable);
     }
 
-    /** TEST --DONE
-     *  Tests New Scenario #14, Feature: Confirm Block Placement
-     *  "For non first round, I confirm a piece which does not meet with the any of the corners of another piece of my pieces"
+    /**
+     *  Tests Scenario #14: "For non first round, I cancel a piece which does not meet any of the corners of another piece of my pieces"
+     *  Feature #3: Cancel Block Placement
      */
-    public void test11InvalidConfirm_DoesNotMeetCornerProblem_PieceInUpperLeftCornerDuringNonFirstRound(){
-        dragPieceToCorner(FIRST_PIECE_TYPE, COLOR);
-        solo.sleep(100);
-        confirmPiece();
-        dragPieceToCorner(FOURTH_PIECE_TYPE, COLOR);
-
-        ButtonsView confirmButton = findButtonView();
-        boolean confirmClickable = confirmButton.isClickable();
-
-        assertEquals(false, confirmClickable);
-    }
-
-
-    /** TEST --DONE
-     *  Tests New Scenario #15, Feature: Confirm Block Placement
-     *  "For non first round, I confirm a piece which is on top of another piece of my pieces"
-     */
-    public void test12InvalidConfirm_IsOnTopProblem_PieceInUpperLeftCornerDuringNonFirstRound(){
-        dragPieceToCorner(FIRST_PIECE_TYPE, COLOR);
-        solo.sleep(100);
-        confirmPiece();
-        dragPieceToCorner(FIFTH_PIECE_TYPE, COLOR);
-
-        ButtonsView confirmButton = findButtonView();
-        boolean confirmClickable = confirmButton.isClickable();
-
-        assertEquals(false, confirmClickable);
-    }
-
-
-    /** TEST --DONE
-     *  Tests New Scenario #16, Feature: Cancel Block Placement
-     *  "For non first round, I cancel a piece which has a side that lines up on another piece of my pieces"
-     */
-    public void testCancel_SideLineUpProblem_PieceInUpperLeftCornerDuringNonFirstRound(){
-        dragPieceToCorner(FIRST_PIECE_TYPE, COLOR);
-        solo.sleep(100);
-        confirmPiece();
-        dragPieceToCorner(THIRD_PIECE_TYPE, COLOR);
+    public void testCancelInvalidPiecePlacement_DoesNotMeetWithAnyCornerViolation_NonFirstRound(){
+        addFirstPieceToBoard();
+        dragPieceToSpecificLocation(FOURTH_PIECE_TYPE, COLOR);
         cancelPiece();
 
-        //the size of the list of available red pieces is still 20 which means that the second piece has not been placed on the board
+        //the size of the list of available red pieces should still be 20, which means that the second piece has not been placed on the board
         assertEquals(20,ui.game.game.boards.get(COLOR).pieces.size());
     }
 
-
-    /** TEST --DONE
-     *  Tests New Scenario #17, Feature: Cancel Block Placement
-     *  "For non first round, I cancel a piece which does not meet any of the corners of another piece of my pieces"
-     */
-    public void testCancel111_DoesNotMeetCornerProblem_PieceInUpperLeftCornerDuringNonFirstRound(){
-        dragPieceToCorner(FIRST_PIECE_TYPE, COLOR);
-        solo.sleep(100);
-        confirmPiece();
-        dragPieceToCorner(FOURTH_PIECE_TYPE, COLOR);
-        cancelPiece();
-
-        //the size of the list of available red pieces is still 20 which means that the second piece has not been placed on the board
-        assertEquals(20,ui.game.game.boards.get(COLOR).pieces.size());
-    }
-
-
-    /** TEST --DONE
-     *  Tests New Scenario #18, Feature: Cancel Block Placement
-     *  "For non first round, I cancel a piece which is on top of another piece of my pieces"
-     */
-    public void testCancel112_IsOnTopProblem_PieceInUpperLeftCornerDuringNonFirstRound(){
-        dragPieceToCorner(FIRST_PIECE_TYPE, COLOR);
-        solo.sleep(100);
-        confirmPiece();
-        dragPieceToCorner(FIFTH_PIECE_TYPE, COLOR);
-        cancelPiece();
-
-        //the size of the list of available red pieces is still 20 which means that the second piece has not been placed on the board
-        assertEquals(20,ui.game.game.boards.get(COLOR).pieces.size());
-    }
 
     //HELPERS: -----------------------------------------------------------------------------------------
 
     /** Helper
-     *  Drags the specified piece to specified seed
-     *  Assumes either new game or only first move (First piece to upperLeft)
-     *  Assumes screen hasn't been altered beforehand
+     *  Drags the piece to a specific location depending on piece type
      *  Assumes Red player
      * @param type string representing code for the piece to be moved
      * @param colour int representing colour of board to operate on.
      * @return  int[0] before = array of pixel locations before piece was moved, I.e. before[0] = old X, before[1] = old Y
      *          int[1] after = array of pixel locations after piece was moved, I.e. after[1] = new X, after[1] = new Y
      */
-    private int[][] dragPieceToCorner(String type, int colour){
+    private int[][] dragPieceToSpecificLocation(String type, int colour){
 
         solo.waitForActivity("UI", 2000);
 
@@ -330,23 +314,19 @@ public class RobotiumTests extends ActivityInstrumentationTestCase2<UI> {
             endY -= ui.game.size;
         }
         if(type.equals(THIRD_PIECE_TYPE)){
-//            endX += 2*ui.game.size;
             endY -= 2*ui.game.size;
         }
 
         if(type.equals(FOURTH_PIECE_TYPE)){
-//            endX += 2*ui.game.size;
             endY += 2*ui.game.size;
         }
 
         if(type.equals(FIFTH_PIECE_TYPE)){
-//            endX -= ui.game.size;
             endY -= 2*ui.game.size;
         }
 
         //System.out.println("Starting Location: "+startX +" " + startY);
         solo.drag(startX, endX, startY, endY, 100);
-        //solo.assertCurrentActivity("UI Supposed to Launch", UI.class);
 
         piece.getLocationOnScreen(end);
         result[0] = start;
@@ -354,14 +334,9 @@ public class RobotiumTests extends ActivityInstrumentationTestCase2<UI> {
         return result;
     }
 
-    /** HELPER
-     *  Sets up a game with I5 in top Left, N5 after
-     */
-    private void setupGame(){
-        dragPieceToCorner(FIRST_PIECE_TYPE, COLOR);
+    private void addFirstPieceToBoard(){
+        dragPieceToSpecificLocation(FIRST_PIECE_TYPE, COLOR);
         solo.sleep(100);
-        confirmPiece();
-        dragPieceToCorner(SECOND_PIECE_TYPE, COLOR);
         confirmPiece();
     }
 
@@ -383,6 +358,7 @@ public class RobotiumTests extends ActivityInstrumentationTestCase2<UI> {
         solo.clickOnScreen(position[0] + width/2, position[1] + width/2);
         solo.sleep(200);
     }
+
     /** Helper
      *  Find the Approve&Cancel ButtonView
      * @return ButtonView containing the Approve and Cancel buttons
