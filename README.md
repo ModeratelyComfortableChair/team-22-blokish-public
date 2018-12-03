@@ -4,6 +4,8 @@
 
 [**Integration Testing Part-3 Documentation**](https://github.com/McGill-ECSE429-Fall2018/team-22-blokish/wiki/Part-3:-Integration-Testing)
 
+[**System Level And Acceptance Testing**](https://github.com/McGill-ECSE429-Fall2018/team-22-blokish/wiki/Part-4:-System-Level-&-Acceptance-Testing)
+
 Blokish
 =======
 ![blokish](http://blokish.scoutant.org/blokish_nexus_6)
