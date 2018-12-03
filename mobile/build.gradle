@@ -9,7 +9,7 @@ buildscript {
 apply plugin: 'com.android.application'
 apply plugin: 'jacoco-android'
 android {
-    compileSdkVersion 27 // Api 8.1
+    compileSdkVersion 27 // Api 8.1  NOTE: this might need to be 28
     buildToolsVersion "27.0.3"
     project.archivesBaseName = "blokish-3.3" // TODO sync with Manifest
 
@@ -37,7 +37,16 @@ android {
         implementation 'com.android.support:appcompat-v7:27.1.1'
         implementation 'com.android.support:support-v4:27.1.1'
         implementation 'com.android.support:design:27.1.1'
+        implementation 'com.jayway.android.robotium:robotium-solo:5.2.1'
 
+        //CUCUMBER. NOTE: runner not included as we are not linking .feature to tests
+        androidTestImplementation 'io.cucumber:cucumber-junit:3.0.2'
+        androidTestImplementation group: 'io.cucumber', name: 'cucumber-android', version: '3.0.2'
+        androidTestImplementation 'io.cucumber:cucumber-picocontainer:3.0.2'
+        androidTestImplementation group: 'io.cucumber', name: 'cucumber-jvm', version: '3.0.2', ext: 'pom'
+        androidTestImplementation 'io.cucumber:cucumber-core:3.0.2'
+        androidTestImplementation 'io.cucumber:cucumber-jvm-deps:1.0.6'
+        // ...
     }
 
     lintOptions {
@@ -65,6 +74,14 @@ android {
 				srcDirs = ['./src/test/java'] //'./evosuite-tests']
 			}
 		}
+        androidTest {
+            assets {
+                assets.srcDirs = ['src/androidTest/assets']
+            }
+            java {
+                java.srcDirs = ['src/androidTest/java']
+            }
+        }
 	}
 
     jacocoAndroidUnitTestReport {
