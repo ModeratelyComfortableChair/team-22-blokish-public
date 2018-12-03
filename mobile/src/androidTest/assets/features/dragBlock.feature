@@ -6,8 +6,8 @@ Feature: Drag Block Placement
     And it is my turn to move
     And I have pieces available
 
-#Scenario 1
-  Scenario:
+  #Covers Scenario 1
+  Scenario: For any round, I drag a piece to any position on the board
     When I select an available piece
     And drag it to a position on the board
     And release it

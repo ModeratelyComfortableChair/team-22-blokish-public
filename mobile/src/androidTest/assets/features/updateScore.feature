@@ -6,8 +6,8 @@ Feature: Update Game Score
     And it is my turn to move
     And I have pieces available
 
-    #Covers scenario 12
-  Scenario Outline: Successfully add block to the board and update my score
+    #Covers scenario 14
+  Scenario Outline: For any round, I confirm the placement of one of my own pieces and my score gets increased by the number of squares in that placed piece accordingly.
     Given my current score is <x>
     When I successfully add a block having <y> squares to the board
     Then I see that my score got updated to x+y

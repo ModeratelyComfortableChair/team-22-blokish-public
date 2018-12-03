@@ -190,7 +190,7 @@ public class RobotiumTests extends ActivityInstrumentationTestCase2<UI> {
     }
 
     /**
-     *  Tests Scenario #10: "During any round past the first, I cancel a piece which meets with the corner of another of my pieces, and isn’t on or at the side of another piece of my pieces (a valid position)"
+     *  Tests Scenario #10: "During any round past the first, I cancel a piece which connects by corner to another piece of my pieces, and isn’t on or at the side of another piece of my pieces (a valid position)"
      *  Feature #3: Cancel Block Placement
      */
     public void testCancelValidPiecePlacement_NonFirstRound(){
@@ -216,7 +216,7 @@ public class RobotiumTests extends ActivityInstrumentationTestCase2<UI> {
     }
 
     /**
-     *  Tests Scenario #12: "During any round past the first, I cancel a piece which has a side that lines up with another piece of my pieces.”
+     *  Tests Scenario #12: "During any round past the first, I cancel a piece which has a side that lines up against the side of another piece of my pieces.”
      *  Feature #3: Cancel Block Placement
      */
     public void testCancelInvalidPiecePlacement_SideLineUpWithAnotherPieceViolation_NonFirstRound(){

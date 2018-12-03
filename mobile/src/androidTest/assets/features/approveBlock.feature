@@ -6,7 +6,7 @@ Feature: Approve Block Placement
     And it is my turn to move
     And I have pieces available
 
-    #Covers scenarios 2,3,6,7,8
+    #Covers scenarios 3,4,5
   Scenario Outline: I try to approve an invalid block placement
     Given it is <round>
     When I select an available block
@@ -16,12 +16,15 @@ Feature: Approve Block Placement
     And the approve button is non_clickable
 
     #Note: the Upper_Left_Corner is always the red player's corner
-    Examples:
-      |round      | position
-  first_round | Upper_Right_Corner
-  non_first_round | position which meets with the corner of another of my pieces, but is on another piece
-  non_first_round | position which meets with the corner of another of my pieces, but has a side that lines up on another piece of my pieces
 
+    Examples:
+      |round          | position
+      first_round     | top_right_corner
+      non_first_round | position such that it is on top of an existing piece
+      non_first_round | position such that the piece has a side that lines up against the side of another piece of my pieces
+      non_first_round | position such that the piece does not connect by corner to another piece of my pieces
+
+    #Covers scenarios 2,6
   Scenario Outline: I try to approve a valid block placement
     Given it is <round>
     When I select an available block
@@ -32,5 +35,5 @@ Feature: Approve Block Placement
 
     Examples:
       |round      | position
-      first_round | Upper_Left_Corner
-      non_first_round | position which meets with the corner of another of my pieces, and isn’t on another piece or at the side of another piece
+      first_round | top_left_corner
+      non_first_round | position such that the piece connects by corner to another piece of my pieces, and does not share any sides with it or rest on top of another existing piece

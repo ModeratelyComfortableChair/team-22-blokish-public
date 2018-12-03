@@ -6,7 +6,7 @@ Feature: Cancel Block Placement
     And it is my turn to move
     And I have pieces available
 
-    #Covers scenarios 4,5,9,10,11
+    #Covers scenarios 8,9,10,11,12,13
   Scenario Outline: I try to cancel a block placement
     Given it is <round>
     When I select an available block
@@ -16,9 +16,10 @@ Feature: Cancel Block Placement
     Then the floating block goes back to my set of available pieces
 
   Examples:
-    |round      | position
-    first_round | Upper_Left_Corner
-    first_round | Upper_Right_Corner
-    non_first_round | position which meets with the corner of another of my pieces, and isn’t on another piece or at the side of another piece  | clickable
-    non_first_round | position which meets with the corner of another of my pieces, but is on another piece  | clickable
-    non_first_round | position which meets with the corner of another of my pieces, but has a side that lines up along another piece of my pieces  | clickable
+    |round          | position
+    first_round     | top_left_corner
+    first_round     | top_right_corner
+    non_first_round | position such that the piece connects by corner to another piece of my pieces, and isn’t on or at the side of another piece of my pieces
+    non_first_round | position such that the piece is on top of another piece
+    non_first_round | position such that the piece has a side that lines up against the side of another piece of my pieces
+    non_first_round | position such that the piece does not connect by corner to another piece of my pieces
